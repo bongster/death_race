@@ -109,3 +109,6 @@ venv.bak/
 
 # vscode
 .vscode
+
+# ignore django collectstatic folder
+staticfiles
