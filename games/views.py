@@ -11,7 +11,6 @@ class GameRedirectView(RedirectView):
 
     def get_redirect_url(self, *args, **kwargs):
         kwargs['pk'] = kwargs.get('pk') or 1
-        print(kwargs)
         return super().get_redirect_url(*args, **kwargs)
 
 class GameView(TemplateView):
