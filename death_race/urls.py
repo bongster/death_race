@@ -26,3 +26,5 @@ urlpatterns = [
     path('', MainRedirectView.as_view()),
     # path('', MainView.as_view()),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
