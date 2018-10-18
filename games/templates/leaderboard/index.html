@@ -1,32 +1,96 @@
 {% extends 'base2.html' %}
 
 {% block content %}
-<table class="table">
-    <thead>
+<form>
+    <div class="d-flex bd-highlight">
+        <div class="p-2 bd-highlight">
+            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">competition</label>
+            <select class="form-control form-control-sm mr-sm-2" name="competition" id="control-competition">
+                <option selected>Death race</option>
+            </select>
+        </div>
+        <div class="p-2 bd-highlight">
+            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">division</label>
+            <select class="form-control form-control-sm mr-sm-2" name="division" id="control-division">
+                <option value="1">Male Pairs</option>
+                <option value="2">Femail Pairs</option>
+                <option value="3">Mixed Pairs</option>
+            </select>
+        </div>
+        <div class="p-2 flex-grow-1 bd-highlight">
+            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">search</label>
+            <input type="text" class="form-control form-control-sm mr-sm-2" name="search" id="control-search">
+        </div>
+        <div class="p-2 bd-highlight">
+            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">workout type</label>
+            <select class="form-control form-control-sm mr-sm-2" name="scaled" id="control-scaled">
+                <option value="0">Rx'd</option>
+                <option value="1">Scaled</option>
+            </select>
+        </div>
+        <div class="p-2 bd-highlight">
+            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">sort</label>
+            <select class="form-control form-control-sm mr-sm-2" name="workout_id" id="control-workout_id">
+                <option selected>Overall</option>
+                <option value="1">WORKOUT 1</option>
+                <option value="2">WORKOUT 2</option>
+                <option value="3">WORKOUT 3</option>
+                <option value="4">WORKOUT 4</option>
+            </select>
+        </div>
+        <div class="p-2 bd-highlight">
+            <label class="mr-sm-2 form-control-sm font-weight-bold" for="inlineFormCustomSelect">YEAR</label>
+            <select class="form-control form-control-sm mr-sm-2" name="year" id="control-year">
+                <option selected>2018</option>
+            </select>
+        </div>
+    </div>
+</form>
+
+
+<table class="table mt-3">
+    <thead class="thead-dark">
         <tr>
-        <th>#</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Username</th>
+            <th>RANK</th>
+            <th>NAME</th>
+            <th>POINT</th>
+            <th>WORKOUT 1</th>
+            <th>WORKOUT 2</th>
+            <th>WORKOUT 3</th>
+            <th>WORKOUT 4</th>
+            <th>WORKOUT 5</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
+            <th scope="row">1</th>
+            <td class="font-weight-bold">SMITH / HORVATH</td>
+            <td>32</td>
+            <th>WORKOUT 1</th>
+            <th>WORKOUT 2</th>
+            <th>WORKOUT 3</th>
+            <th>WORKOUT 4</th>
+            <th>WORKOUT 5</th>
         </tr>
         <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
+            <th scope="row">2</th>
+            <td>PARK</td>
+            <td>29</td>
+            <th>WORKOUT 1</th>
+            <th>WORKOUT 2</th>
+            <th>WORKOUT 3</th>
+            <th>WORKOUT 4</th>
+            <th>WORKOUT 5</th>
         </tr>
         <tr>
-        <th scope="row">3</th>
-        <td colspan="2">Larry the Bird</td>
-        <td>@twitter</td>
+            <th scope="row">3</th>
+            <td >Larry the Bird</td>
+            <td >40</td>
+            <th>WORKOUT 1</th>
+            <th>WORKOUT 2</th>
+            <th>WORKOUT 3</th>
+            <th>WORKOUT 4</th>
+            <th>WORKOUT 5</th>
         </tr>
     </tbody>
 </table>
