@@ -1,4 +1,6 @@
 from django.db import models
+from django.conf import settings
+from django.utils.html import format_html
 
 class Game(models.Model):
     """
@@ -20,16 +22,31 @@ class Game(models.Model):
 
     name = models.CharField(max_length=100)
 
-    logo_image = models.ImageField(blank=True)
-    main_image = models.ImageField(blank=True)
-    description = models.TextField(blank=True)
+    logo_image = models.ImageField(blank=True, upload_to='media/games/')
+    main_image = models.ImageField(blank=True, upload_to='media/games/')
+    description = models.TextField(blank=True, default='')
 
-    start_date = models.DateTimeField(blank=True)
-    end_date = models.DateTimeField(blank=True)
+    start_date = models.DateTimeField(blank=True, null=True)
+    end_date = models.DateTimeField(blank=True, null=True)
 
     is_active = models.BooleanField(default=False)
 
-class WOD2game(models.Model):
+
+    def logo_image_tag(self):
+        return format_html(
+            "<img src='/{}{}' ",
+            settings.MEDIA_URL,
+            self.logo_image,
+        )
+
+    def main_image_tag(self):
+        return format_html(
+            "<img src='/{}{}' ",
+            settings.MEDIA_URL,
+            self.main_image,
+        )
+
+class WOD2Game(models.Model):
     """
     included wods in game
     """
@@ -68,8 +85,8 @@ class WOD(models.Model):
 
     name = models.CharField(max_length=100)
     wod_type = models.CharField(choices=WOD_TYPE, default=FOR_TIME, max_length=15)
-    description = models.TextField(blank=True)
-    video_link = models.URLField(max_length=200)
+    description = models.TextField(blank=True, default='')
+    video_link = models.URLField(max_length=200, default='')
 
     is_active = models.BooleanField(default=False)
 
