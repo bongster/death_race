@@ -22,8 +22,8 @@ class Game(models.Model):
 
     name = models.CharField(max_length=100)
 
-    logo_image = models.ImageField(blank=True, upload_to='media/games/')
-    main_image = models.ImageField(blank=True, upload_to='media/games/')
+    logo_image = models.ImageField(blank=True, upload_to='games/')
+    main_image = models.ImageField(blank=True, upload_to='games/')
     description = models.TextField(blank=True, default='')
 
     start_date = models.DateTimeField(blank=True, null=True)
@@ -33,15 +33,19 @@ class Game(models.Model):
 
 
     def logo_image_tag(self):
+        image_url = '{}{}'.format(settings.MEDIA_URL, self.logo_image)
         return format_html(
-            "<img src='/{}{}' ",
+            "<a href='{}' target='_blank' ><img src='{}{}' width='144px'></a>",
+            image_url,
             settings.MEDIA_URL,
             self.logo_image,
         )
 
     def main_image_tag(self):
+        image_url = '{}{}'.format(settings.MEDIA_URL, self.main_image)
         return format_html(
-            "<img src='/{}{}' ",
+            "<a href='{}' target='_blank' ><img src='{}{}' width='144px'></a>",
+            image_url,
             settings.MEDIA_URL,
             self.main_image,
         )

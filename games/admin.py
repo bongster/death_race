@@ -4,10 +4,9 @@ from django.contrib import admin
 from .models import Game, WOD, WOD2Game, Team, Team2Game, Record
 
 
-
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = ['logo_image_tag', 'main_image_tag'] + [field.name for field in Game._meta.get_fields()]
+    list_display = [field.name for field in Game._meta.get_fields()] + ['logo_image_tag', 'main_image_tag']
 
 @admin.register(WOD)
 class WODAdmin(admin.ModelAdmin):
