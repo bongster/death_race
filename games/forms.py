@@ -32,3 +32,36 @@ class RecordForm(forms.ModelForm):
     class Meta:
         model = Record
         fields = '__all__'
+
+class CompetitionModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return "%s" % obj.name
+
+class WODModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return "%s" % obj.name
+
+class LeaderboardForm(forms.Form):
+    search = forms.CharField(required=False, initial='', widget=forms.TextInput(attrs={
+        'class': 'form-control form-control-sm mr-sm-2'
+    }))
+
+    division = forms.ChoiceField(required=False, choices=((None, 'All'),) + Team.GENTER_TYPE, widget=forms.Select(attrs={
+        'class': 'form-control form-control-sm mr-sm-2'
+    }))
+
+    def __init__(self, game_id, *args, **kwargs):
+        super(LeaderboardForm, self).__init__(*args, **kwargs)
+        self.fields['wod'].queryset = WOD.objects.filter(
+            id__in=WOD2Game.objects.filter(
+                game_id=game_id
+            )
+        )
+
+    # competition = CompetitionModelChoiceField(required=False, queryset=Game.objects.all(), empty_label='All', widget=forms.Select(attrs={
+    #     'class': 'form-control form-control-sm mr-sm-2'
+    # }))
+
+    wod = CompetitionModelChoiceField(required=False, queryset=WOD.objects.all(), label='sort', empty_label='All', widget=forms.Select(attrs={
+        'class': 'form-control form-control-sm mr-sm-2'
+    }))
