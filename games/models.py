@@ -131,12 +131,9 @@ class Team2Game(models.Model):
     """
     class Meta:
         db_table = 'teams_2_games'
-        unique_together = (
-            ('team_id', 'game_id'),
-        )
     
-    team_id = models.PositiveSmallIntegerField()
-    game_id = models.PositiveSmallIntegerField()
+    team_id = models.PositiveSmallIntegerField(db_index=True)
+    game_id = models.PositiveSmallIntegerField(db_index=True)
 
     is_active = models.BooleanField(default=False)
 
@@ -151,7 +148,7 @@ class Record(models.Model):
         )
     
     wod_id = models.IntegerField()
-    team_id = models.IntegerField()
+    team_id = models.IntegerField(db_index=True)
 
     score = models.CharField(max_length=100)
     point = models.PositiveSmallIntegerField(null=True)
