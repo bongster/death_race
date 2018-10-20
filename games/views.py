@@ -41,6 +41,7 @@ class LeaderboardView(TemplateView):
         team_list = Team.objects.filter(
             id__in=Team2Game.objects.filter(
                 game_id=game.id,
+                is_active=True,
             )
         )
 
