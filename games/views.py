@@ -74,7 +74,8 @@ class LeaderboardView(TemplateView):
         for team in team_list:
             data = [ team.name, 0 ]
             team_records = { record['wod_id']: record for record in Record.objects.filter(
-                team_id=team.id
+                team_id=team.id,
+                is_ative=True,
             ).values('wod_id', 'score', 'point') }
             for wod_id in wod_ids:
                 team_record = team_records.get(wod_id) or dict(
@@ -123,7 +124,7 @@ class WODView(TemplateView):
         context_wods = {}
         for wod_id in wod_ids:
             wod = list(filter(lambda x: x.id == wod_id, wods))[0]
-            context_wods[wod.id] = wod
+            context_wods[wod_id] = wod
 
         context['wods'] = context_wods
 
