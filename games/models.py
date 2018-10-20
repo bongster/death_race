@@ -154,6 +154,6 @@ class Record(models.Model):
     team_id = models.IntegerField()
 
     score = models.CharField(max_length=100)
-    point = models.PositiveSmallIntegerField()
+    point = models.PositiveSmallIntegerField(null=True)
 
     is_ative = models.BooleanField(default=False)
