@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.html import format_html
 
+
 class Game(models.Model):
     """
     TABLE:
@@ -29,6 +30,9 @@ class Game(models.Model):
     start_date = models.DateTimeField(blank=True, null=True)
     end_date = models.DateTimeField(blank=True, null=True)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     is_active = models.BooleanField(default=False)
 
 
@@ -50,21 +54,53 @@ class Game(models.Model):
             self.main_image,
         )
 
+
+class Competition(models.Model):
+    """
+    Competition model
+    relationship
+    game : competition == 1: N
+
+    TODO: game: competition == N:N if required
+    """
+    name = models.CharField(max_length=255, default='')
+    game_id = models.IntegerField(null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    is_active = models.BooleanField(default=True)
+
+
+class Game2Competition(models.Model):
+
+    game_id = models.IntegerField()
+    competition_id = models.IntegerField()
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
 class WOD2Game(models.Model):
     """
     included wods in game
     """
     class Meta:
-        db_table = "wods_2_games"
+        db_table = 'wods_2_games'
         unique_together = [
-            ("game_id", "wod_id"),
+            ('game_id', 'wod_id', 'order'),
         ]
     
     game_id = models.IntegerField()
     wod_id = models.IntegerField()
     order = models.PositiveSmallIntegerField()
 
-    is_ative = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
 class WOD(models.Model):
     """
@@ -73,9 +109,11 @@ class WOD(models.Model):
     name
     is_active
 
+    competition_id: included competition id
+
     """
     class Meta:
-        db_table = "wods"
+        db_table = 'wods'
 
     AMRAP = 'amrap'
     EMOM = 'emom'
@@ -91,29 +129,36 @@ class WOD(models.Model):
     wod_type = models.CharField(choices=WOD_TYPE, default=FOR_TIME, max_length=15)
     description = models.TextField(blank=True, default='')
     video_link = models.URLField(max_length=200, default='')
+    image_link = models.URLField(max_length=200, default='')
+
+    competition_id = models.IntegerField(null=True)
 
     is_active = models.BooleanField(default=False)
 
-class Team(models.Model):
-    class Meata:
-        db_table = "teams"
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
-    INDIVIDUAL = "individual"
-    TEAM = "team"
+
+class Team(models.Model):
+    class Meta:
+        db_table = 'teams'
+
+    INDIVIDUAL = 'individual'
+    TEAM = 'team'
 
     TEAM_TYPE = (
-        (INDIVIDUAL, "individual"),
-        (TEAM, "team"),
+        (INDIVIDUAL, 'individual'),
+        (TEAM, 'team'),
     )
 
-    MALE = "male"
-    FEMALE = "female"
-    MIXED = "mixed"
+    MALE = 'male'
+    FEMALE = 'female'
+    MIXED = 'mixed'
 
     GENTER_TYPE = (
-        (MALE, "MALE"),
-        (FEMALE, "FEMALE"),
-        (MIXED, "MIXED",)
+        (MALE, 'MALE'),
+        (FEMALE, 'FEMALE'),
+        (MIXED, 'MIXED',)
     )
 
     name = models.CharField(max_length=50)
@@ -121,6 +166,10 @@ class Team(models.Model):
     gender_type = models.CharField(choices=GENTER_TYPE, default=MALE, max_length=10)
 
     is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
 class Team2Game(models.Model):
     """
@@ -136,6 +185,10 @@ class Team2Game(models.Model):
     game_id = models.PositiveSmallIntegerField(db_index=True)
 
     is_active = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
 class Record(models.Model):
     """
@@ -153,4 +206,4 @@ class Record(models.Model):
     score = models.CharField(max_length=100)
     point = models.PositiveSmallIntegerField(null=True)
 
-    is_ative = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
