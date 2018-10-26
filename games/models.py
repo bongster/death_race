@@ -54,6 +54,16 @@ class Game(models.Model):
             self.main_image,
         )
 
+    def competition_list(self):
+
+        return format_html(
+            '{}',
+            Competition.objects.filter(
+                game_id=self.id,
+                is_active=True,
+            ).values('name')
+        )
+
 
 class Competition(models.Model):
     """
@@ -71,10 +81,20 @@ class Competition(models.Model):
 
     is_active = models.BooleanField(default=True)
 
+    def game_name(self):
+        game = Game.objects.filter(id=self.game_id)
+        if game:
+            return game[0].name
 
-class Game2Competition(models.Model):
+    def wod_list(self):
+        return WOD.objects.filter(competition_id=self.id)
 
-    game_id = models.IntegerField()
+
+class Team2Competition(models.Model):
+    class Meta:
+        db_table = 'teams_2_competitions'
+
+    team_id = models.IntegerField()
     competition_id = models.IntegerField()
     is_active = models.BooleanField(default=True)
 
