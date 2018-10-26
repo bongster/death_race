@@ -112,3 +112,5 @@ venv.bak/
 
 # ignore django collectstatic folder
 staticfiles
+
+.idea
