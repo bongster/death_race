@@ -1,7 +1,7 @@
 from django import forms
 
 # Register your models here.
-from .models import Game, WOD, WOD2Game, Team, Team2Game, Competition, Record
+from .models import Game, WOD, WOD2Game, Team, Team2Game, Competition, Record, Sponsor
 
 
 class CustomChoiceField(forms.ChoiceField):
@@ -92,4 +92,10 @@ class WODForm(forms.ModelForm):
 
     class Meta:
         model = WOD
+        fields = '__all__'
+
+
+class SponsorForm(forms.ModelForm):
+    class Meta:
+        model = Sponsor
         fields = '__all__'

@@ -35,7 +35,6 @@ class Game(models.Model):
 
     is_active = models.BooleanField(default=False)
 
-
     def logo_image_tag(self):
         image_url = '{}{}'.format(settings.MEDIA_URL, self.logo_image)
         return format_html(
@@ -62,6 +61,14 @@ class Game(models.Model):
                 game_id=self.id,
                 is_active=True,
             ).values('name')
+        )
+
+    def sponed_sponsor_list(self):
+        return Sponsor.objects.filter(
+            pk__in=Game2Sponsor.objects.filter(
+                game_id=self.id,
+                is_active=True
+            ).values_list('sponsor_id', flat=True)
         )
 
 
@@ -227,3 +234,48 @@ class Record(models.Model):
     point = models.PositiveSmallIntegerField(null=True)
 
     is_active = models.BooleanField(default=False)
+
+    def wod_name(self):
+        return WOD.objects.get(pk=self.wod_id).name
+
+    def team_name(self):
+        team = Team.objects.get(pk=self.team_id)
+        return format_html(
+            '{} [ <b>{}</b> ]',
+            team.name,
+            team.team_type,
+        )
+
+class Sponsor(models.Model):
+    class Meta:
+        db_table = 'sponsors'
+
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=255, blank=True, default='')
+    image_link = models.URLField(null=True)
+
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def participated_game_list(self):
+        return Game.objects.filter(
+            pk__in=Game2Sponsor.objects.filter(
+                sponsor_id=self.id,
+                is_active=True
+            ).values_list('game_id', flat=True)
+        )
+
+
+class Game2Sponsor(models.Model):
+    class Meta:
+        db_table = 'games_2_sponsors'
+
+    game_id = models.IntegerField(db_index=True)
+    sponsor_id = models.IntegerField(db_index=True)
+
+    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
