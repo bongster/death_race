@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.utils.html import format_html
 
+from death_race.utils import get_or_none
+
 
 class Game(models.Model):
     """
@@ -155,10 +157,38 @@ class WOD(models.Model):
     name = models.CharField(max_length=100)
     wod_type = models.CharField(choices=WOD_TYPE, default=FOR_TIME, max_length=15)
     description = models.TextField(blank=True, default='')
-    video_link = models.URLField(max_length=200, default='')
-    image_link = models.URLField(max_length=200, default='')
+    video_link = models.URLField(max_length=200, default='', blank=True)
+    image_link = models.URLField(max_length=200, default='', blank=True)
 
     competition_id = models.IntegerField(null=True)
+
+    is_active = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def competition_name(self):
+        competition = get_or_none(Competition, id=self.competition_id)
+        if competition:
+            return competition.name
+
+        return ''
+
+
+class WOD2Competition(models.Model):
+    """
+    included wods in game
+    """
+
+    class Meta:
+        db_table = 'wods_2_competitions'
+        unique_together = [
+            ('competition_id', 'wod_id', 'order'),
+        ]
+
+    competition_id = models.IntegerField()
+    wod_id = models.IntegerField()
+    order = models.PositiveSmallIntegerField()
 
     is_active = models.BooleanField(default=False)
 
@@ -271,6 +301,9 @@ class Sponsor(models.Model):
 class Game2Sponsor(models.Model):
     class Meta:
         db_table = 'games_2_sponsors'
+        unique_together = (
+            ('game_id', 'sponsor_id'),
+        )
 
     game_id = models.IntegerField(db_index=True)
     sponsor_id = models.IntegerField(db_index=True)

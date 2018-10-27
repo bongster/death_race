@@ -9,8 +9,7 @@ class MainRedirectView(RedirectView):
     pattern_name = 'game-detail'
 
     def get_redirect_url(self, *args, **kwargs):
-        kwargs['pk'] = kwargs.get('pk') or 1
-        print(kwargs)
+        kwargs['game_id'] = kwargs.get('game_id') or 1
         return super().get_redirect_url(*args, **kwargs)
 
 class MainView(TemplateView):

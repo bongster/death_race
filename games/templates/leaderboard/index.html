@@ -3,10 +3,6 @@
 {% block content %}
 <form method="get">
     <div class="d-flex bd-highlight">
-        {% comment %} <div class="p-2 bd-highlight">
-            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">{{ form.competition.label }}</label>
-            {{ form.competition }}
-        </div> {% endcomment %}
         <div class="p-2 bd-highlight">
             <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">{{ form.division.label }}</label>
             {{ form.division }}
@@ -15,11 +11,6 @@
             <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">{{form.search.label}}</label>
             <input type="text" class="form-control form-control-sm mr-sm-2" name="search" id="control-search" value="{{form.search.value|default:''}}">
         </div>
-
-        {% comment %} <div class="p-2 bd-highlight">
-            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">{{ form.wod.label }}</label>
-            {{ form.wod }}
-        </div> {% endcomment %}
 
         <div class="p-2 bd-highlight">
             <button class="btn btn-sm btn-block form-control form-control-sm mr-sm-2 h-100" type="submit">
@@ -50,7 +41,7 @@
                         <span>{{ detail_data|default:'-' }}</span>
                     </td>
                 {% endfor %}
-            </th>
+            </tr>
         {% endfor %}
     </tbody>
 </table></div>
