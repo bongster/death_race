@@ -4,6 +4,10 @@
 <form method="get">
     <div class="d-flex bd-highlight">
         <div class="p-2 bd-highlight">
+            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">{{ form.competition.label }}</label>
+            {{ form.competition }}
+        </div>
+        <div class="p-2 bd-highlight">
             <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">{{ form.division.label }}</label>
             {{ form.division }}
         </div>

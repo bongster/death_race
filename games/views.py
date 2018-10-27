@@ -78,12 +78,21 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         form = LeaderboardForm(game.id, self.request.GET or None)
         division = form.data.get('division')
         search = form.data.get('search')
+        competition = form.data.get('competition')
 
         team_list = Team.objects.filter(
             id__in=Team2Game.objects.filter(
                 game_id=game.id,
                 is_active=True,
             )
+        )
+
+        competition_list = Competition.objects.filter(
+            game_id=game.id
+        )
+
+        wod_list = WOD.objects.filter(
+            competition_id__in=competition_list.values_list('id', flat=True)
         )
 
         if search:
@@ -96,22 +105,19 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
                 gender_type=division,
             )
 
-        team_map = {team.id: team for team in team_list}
+        if competition:
+            competition_list.filter(id=competition)
 
-        wods = WOD.objects.filter(
-            id__in=WOD2Game.objects.filter(
-                game_id=game.id
-            )
-        )
+        team_map = {team.id: team for team in team_list}
 
         leaderboard = {
             'header': ['name', 'point'],
             'data': []
         }
 
-        wod_ids = [wod.id for wod in wods]
+        wod_ids = [wod.id for wod in wod_list]
 
-        leaderboard['header'].extend([wod.name for wod in wods])
+        leaderboard['header'].extend([wod.name for wod in wod_list])
 
         for team in team_list:
             data = [team.name, 0]
@@ -133,9 +139,6 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
 
         # TODO: sort by point
         sorted(leaderboard['data'], key=lambda data: data[1], reverse=True)
-
-        if form.is_valid():
-            print(form.cleaned_data)
 
         context['team_map'] = team_map
         context['leaderboard'] = leaderboard
