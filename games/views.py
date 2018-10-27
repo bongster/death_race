@@ -15,11 +15,15 @@ class DefaultContextMixin(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if kwargs.get('game_id'):
+            context['game_id'] = kwargs['game_id']
             context['game'] = Game.objects.get(id=kwargs['game_id'])
             context['competitions'] = Competition.objects.filter(game_id=context['game'].id)
             context['sponsors'] = Sponsor.objects.filter(
                 id__in=Game2Sponsor.objects.filter(game_id=context['game'].id).values_list('sponsor_id', flat=True)
             )
+        if kwargs.get('competition_id'):
+            context['competition_id'] = kwargs['competition_id']
+            context['competition'] = Competition.objects.get(pk=context['competition_id'])
 
         print('call default context')
         return context
@@ -40,7 +44,7 @@ class CompetitionDetailView(DefaultContextMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        competition = Competition.objects.get(pk=kwargs['pk'])
+        competition = context['competition'] # Competition.objects.get(pk=kwargs['pk'])
 
         wods = WOD.objects.filter(
             is_active=True,

@@ -82,8 +82,13 @@
                     <!--  justify-content-between -->
                     <nav class="nav d-flex">
                         <a class="p-2 text-muted" href="{% url 'game-leaderboard' game_id=game.id %}">Leader board</a>
-                        {% for competition in competitions %}
-                            <a class="p-2 text-muted" href="{% url 'competition-detail' game_id=game.id pk=competition.id %}">{{ competition.name }}</a>
+                        {% for comp in competitions %}
+                            {% if competition.id == comp.id %}
+                                <a class="p-2 text-dark font-weight-bold" href="{% url 'competition-detail' game_id=game.id competition_id=comp.id %}">{{ comp.name }}</a>
+                            {% else %}
+                                <a class="p-2 text-muted" href="{% url 'competition-detail' game_id=game.id competition_id=comp.id %}">{{ comp.name }}</a>
+                            {% endif %}
+
                         {% endfor %}
                     </nav>
                 </div>
