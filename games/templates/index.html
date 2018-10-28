@@ -1,7 +1,7 @@
 {% extends 'base2.html' %}
 
 {% block content %}
-<img src="{{ MEDIA_URL }}{{game.main_image}}" class="img-fluid h-100" alt="{{ game.name }}">
+<img src="{{ MEDIA_URL }}{{game.main_image}}" class="img-fluid" alt="{{ game.name }}">
 
 {% if sponsors %}
 <span class="d-block p-3 bg-dark text-white text-uppercase mt-4 mb-4">sponsors</span>
