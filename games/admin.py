@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Game, WOD, WOD2Game, Team, Team2Game, Record, Competition, Sponsor
-from .forms import WOD2GameForm, Team2GameForm, RecordForm, WODForm, CompetitionForm, SponsorForm
+from .models import Game, WOD, WOD2Game, Team, Team2Game, Record, Competition, Sponsor, Game2Sponsor
+from .forms import WOD2GameForm, Team2GameForm, RecordForm, WODForm, CompetitionForm, SponsorForm, Game2SponsorForm
 
 
 @admin.register(Game)
@@ -18,7 +18,9 @@ class GameAdmin(admin.ModelAdmin):
 @admin.register(WOD)
 class WODAdmin(admin.ModelAdmin):
     form = WODForm
-    list_display = [field.name for field in WOD._meta.get_fields()]
+    list_display = [field.name for field in WOD._meta.get_fields()] + [
+        'competition_name',
+    ]
 
 
 @admin.register(WOD2Game)
@@ -62,3 +64,9 @@ class SponsorAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Sponsor._meta.get_fields()] + [
         'participated_game_list',
     ]
+
+
+@admin.register(Game2Sponsor)
+class Game2SponsorAdmin(admin.ModelAdmin):
+    form = Game2SponsorForm
+    list_display = [field.name for field in Game2Sponsor._meta.get_fields()]

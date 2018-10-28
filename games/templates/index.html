@@ -1,7 +1,19 @@
 {% extends 'base2.html' %}
 
 {% block content %}
-<img src="{{ MEDIA_URL }}{{game.main_image}}" class="img-fluid" alt="Responsive image">
+<img src="{{ MEDIA_URL }}{{game.main_image}}" class="img-fluid h-100" alt="{{ game.name }}">
+
+{% if sponsors %}
+<span class="d-block p-3 bg-dark text-white text-uppercase mt-4 mb-4">sponsors</span>
+{% endif %}
+<div class="d-flex flex-wrap">
+    {% for sponsor in sponsors %}
+        <div class="p-2 bd-highlight col-4">
+            <img src="{{ sponsor.image_link }}" class="figure-img img-fluid rounded" alt="{{ sponsor.description }}">
+        </div>
+    {% endfor %}
+</div>
+
 <!-- <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
     <div class="col-md-6 px-0">
         <h1 class="display-4 font-italic">Title of a longer featured blog post</h1>

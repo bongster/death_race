@@ -55,9 +55,14 @@
                         <iframe class="embed-responsive-item" src="{{wod.video_link}}&showinfo=0&autohide=1"></iframe>
                     </div>
                     {% endif %}
+                    {% if wod.image_link %}
+                    <img src="{{ wod.image_link }}" class="img-fluid" alt="{{ wod.image_link }}">
+                    {% endif %}
+                    {% if wod.description %}
                     <pre class="pb-4"><code>
                         {{ wod.description }}
                     </code></pre>
+                    {% endif %}
                 {% else %}
                     <pre class="pb-4"><code>
                     Comming soon
