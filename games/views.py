@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, RedirectView
 
 from .models import Game, WOD2Game, WOD, Team2Game, Team, Record, Competition, Sponsor, Game2Sponsor
-from .forms import LeaderboardForm
+# from .forms import LeaderboardForm
 
 # Create your views here.
 
@@ -79,10 +79,10 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         context = super(LeaderboardView, self).get_context_data(**kwargs)
         game = context['game']
         # get teams list included in game
-        form = LeaderboardForm(game.id, self.request.GET or None)
-        division = form.data.get('division')
-        search = form.data.get('search')
-        competition = form.data.get('competition')
+        # form = LeaderboardForm(game.id, self.request.GET or None)
+        # division = form.data.get('division')
+        # search = form.data.get('search')
+        # competition = form.data.get('competition')
 
         team_list = Team.objects.filter(
             id__in=Team2Game.objects.filter(
@@ -99,18 +99,18 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
             competition_id__in=competition_list.values_list('id', flat=True)
         )
 
-        if search:
-            team_list = team_list.filter(
-                name__contains=search,
-            )
-
-        if division:
-            team_list = team_list.filter(
-                gender_type=division,
-            )
-
-        if competition:
-            competition_list.filter(id=competition)
+        # if search:
+        #     team_list = team_list.filter(
+        #         name__contains=search,
+        #     )
+        #
+        # if division:
+        #     team_list = team_list.filter(
+        #         gender_type=division,
+        #     )
+        #
+        # if competition:
+        #     competition_list.filter(id=competition)
 
         team_map = {team.id: team for team in team_list}
 
@@ -146,5 +146,5 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
 
         context['team_map'] = team_map
         context['leaderboard'] = leaderboard
-        context['form'] = form
+        # context['form'] = form
         return context
