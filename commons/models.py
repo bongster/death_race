@@ -1,12 +1,17 @@
 from django.db import models
 
 # Create your models here.
+from death_race.utils import get_or_none
 
 
 class Resource(models.Model):
     class Meta:
         db_table = 'resources'
         index_together = (
+            ('model_type', 'model_id', 'resource_type', 'order'),
+        )
+
+        unique_together = (
             ('model_type', 'model_id', 'resource_type', 'order'),
         )
 
@@ -35,3 +40,16 @@ class Resource(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def model_name(self):
+        # TODO: fix import error
+        from games.models import Game, WOD
+        if self.model_type == Resource.MODEL_TYPE_GAME:
+            model = get_or_none(Game, id=self.model_id)
+            if model:
+                return model.name
+        elif self.model_type == Resource.MODEL_TYPE_WOD:
+            model = get_or_none(WOD, id=self.model_id)
+            if model:
+                return model.name
+

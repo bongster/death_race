@@ -10,5 +10,7 @@ from commons.models import Resource
 @register(Resource)
 class ResourceAdmin(admin.ModelAdmin):
     form = ResourceForm
-    list_display = [field.name for field in Resource._meta.get_fields()]
+    list_display = [field.name for field in Resource._meta.get_fields()] + [
+        'model_name',
+    ]
 
