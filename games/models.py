@@ -66,11 +66,14 @@ class Game(models.Model):
         )
 
     def sponed_sponsor_list(self):
-        return Sponsor.objects.filter(
-            pk__in=Game2Sponsor.objects.filter(
-                game_id=self.id,
-                is_active=True
-            ).values_list('sponsor_id', flat=True)
+        return format_html(
+            '{}',
+            Sponsor.objects.filter(
+                pk__in=Game2Sponsor.objects.filter(
+                    game_id=self.id,
+                    is_active=True
+                ).values_list('sponsor_id', flat=True)
+            ).values('name')
         )
 
 
@@ -96,7 +99,7 @@ class Competition(models.Model):
             return game[0].name
 
     def wod_list(self):
-        return WOD.objects.filter(competition_id=self.id)
+        return format_html('{}', WOD.objects.filter(competition_id=self.id).values('name'))
 
 
 class Team2Competition(models.Model):
