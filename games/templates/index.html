@@ -4,7 +4,7 @@
 {% for resource in game.resources %}
     {% if resource.resource_type == 'v' %}
         <div class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" src="{{resource.link}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <iframe class="embed-responsive-item" src="{{resource.link}}"></iframe>
         </div>
     {% elif resource.resource_type == 'i' %}
         <img src="{{ MEDIA_URL }}{{game.main_image}}" class="img-fluid" alt="{{ resource.link }}">
