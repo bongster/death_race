@@ -56,7 +56,7 @@
                                 <iframe class="embed-responsive-item" src="{{resource.link}}"></iframe>
                             </div>
                         {% elif resource.resource_type == 'i' %}
-                            <img src="{{ wod.link }}" class="img-fluid" alt="{{ wod.link }}" style="{% if forloop.first %} border-radius: 21px 21px 0 0; {% endif %}">
+                            <img src="{{ resource.link }}" class="img-fluid" alt="{{ resource.link }}" style="{% if forloop.first %} border-radius: 21px 21px 0 0; {% endif %}">
                         {% endif %}
                     {% endfor %}
 {#                    {% if wod.description %}#}
