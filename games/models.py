@@ -77,21 +77,12 @@ class Game(models.Model):
             ).values('name')
         )
 
-    def image_resources(self):
+    def resources(self):
         return Resource.objects.filter(
             model_type=Resource.MODEL_TYPE_GAME,
             model_id=self.id,
-            resource_type=Resource.RESOURCE_TYPE_IMAGE,
             is_active=True,
-        )
-
-    def video_resources(self):
-        return Resource.objects.filter(
-            model_type=Resource.MODEL_TYPE_GAME,
-            model_id=self.id,
-            resource_type=Resource.RESOURCE_TYPE_VIDEO,
-            is_active=True,
-        )
+        ).order_by('order')
 
 
 class Competition(models.Model):
@@ -194,21 +185,12 @@ class WOD(models.Model):
 
         return ''
 
-    def image_resources(self):
+    def resources(self):
         return Resource.objects.filter(
             model_type=Resource.MODEL_TYPE_WOD,
             model_id=self.id,
-            resource_type=Resource.RESOURCE_TYPE_IMAGE,
             is_active=True,
-        )
-
-    def video_resources(self):
-        return Resource.objects.filter(
-            model_type=Resource.MODEL_TYPE_WOD,
-            model_id=self.id,
-            resource_type=Resource.RESOURCE_TYPE_VIDEO,
-            is_active=True,
-        )
+        ).order_by('order')
 
 
 class WOD2Competition(models.Model):

@@ -27,6 +27,7 @@ class Resource(models.Model):
     resource_type = models.CharField(max_length=10, choices=RESOURCE_TYPES, default=RESOURCE_TYPE_IMAGE)
     model_type = models.CharField(max_length=10, choices=MODEL_TYPES, default=MODEL_TYPE_WOD)
     model_id = models.IntegerField()
+    link = models.URLField()
 
     order = models.IntegerField(null=True, blank=True)
 
