@@ -1,29 +1,18 @@
 {% extends 'base2.html' %}
 
 {% block content %}
-<form method="get">
-    <div class="d-flex bd-highlight">
-        <div class="p-2 bd-highlight">
-            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">{{ form.competition.label }}</label>
-            {{ form.competition }}
-        </div>
-        <div class="p-2 bd-highlight">
-            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">{{ form.division.label }}</label>
-            {{ form.division }}
-        </div>
-        <div class="p-2 flex-grow-1 bd-highlight">
-            <label class="mr-sm-2 form-control-sm text-uppercase font-weight-bold" for="inlineFormCustomSelect">{{form.search.label}}</label>
-            <input type="text" class="form-control form-control-sm mr-sm-2" name="search" id="control-search" value="{{form.search.value|default:''}}">
-        </div>
+<form method="get" class="form-inline">
+    <label class="sr-only">{{ form.competition.label }} </label>
+    {{ form.competition }}
 
-        <div class="p-2 bd-highlight">
-            <button class="btn btn-sm btn-block form-control form-control-sm mr-sm-2 h-100" type="submit">
-                <i class="fas fa-search fa-3x"></i>
-            </button>
-        </div>
-    </div>
+    <label class="sr-only">{{ form.division.label }} </label>
+    {{ form.division }}
+
+    <label class="sr-only">{{ form.search.label }} </label>
+    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0 flex-grow-1 bd-highlight" name="search" id="control-search" value="{{form.search.value|default:''}}" placeholder="Search name...">
+
+    <button class="btn btn-dark bd-highlight" type="submit">Search&nbsp;&nbsp;<i class="fas fa-search fa-x"></i></button>
 </form>
-
 
 <div class="table-responsive"><table class="table mt-3">
     <thead class="thead-dark">

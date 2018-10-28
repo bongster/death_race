@@ -48,12 +48,12 @@ class WODModelChoiceField(forms.ModelChoiceField):
 
 class LeaderboardForm(forms.Form):
     search = forms.CharField(required=False, initial='', widget=forms.TextInput(attrs={
-        'class': 'form-control form-control-sm mr-sm-2'
+        'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
     }))
 
     division = forms.ChoiceField(required=False, choices=((None, 'All'),) + Team.GENTER_TYPE,
                                  widget=forms.Select(attrs={
-                                     'class': 'form-control form-control-sm mr-sm-2'
+                                     'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
                                  }))
 
     def __init__(self, game_id, *args, **kwargs):
@@ -66,12 +66,12 @@ class LeaderboardForm(forms.Form):
 
     competition = CustomModelChoiceField(required=False, queryset=Competition.objects.all(), empty_label='All',
                                          widget=forms.Select(attrs={
-                                             'class': 'form-control form-control-sm mr-sm-2'
+                                             'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
                                          }))
 
     wod = CustomModelChoiceField(required=False, queryset=WOD.objects.all(), label='sort', empty_label='All',
                                  widget=forms.Select(attrs={
-                                     'class': 'form-control form-control-sm mr-sm-2'
+                                     'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
                                  }))
 
 
