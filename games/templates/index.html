@@ -3,7 +3,7 @@
 {% block content %}
 {% for resource in game.resources %}
     {% if resource.resource_type == 'v' %}
-        <div class="embed-responsive embed-responsive-12by9" style="border-radius: 21px 21px 0 0;">
+        <div class="embed-responsive embed-responsive-16by9">
             <iframe class="embed-responsive-item" src="{{resource.link}}"></iframe>
         </div>
     {% elif resource.resource_type == 'i' %}

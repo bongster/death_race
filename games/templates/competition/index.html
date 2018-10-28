@@ -50,19 +50,20 @@
             </div>
             <div class="bg-light shadow-sm mx-auto" style="width: 80%; border-radius: 21px 21px 0 0;">
                 {% if wod.is_active %}
-                    {% if wod.video_link %}
-                    <div class="embed-responsive embed-responsive-4by3" style="border-radius: 21px 21px 0 0;">
-                        <iframe class="embed-responsive-item" src="{{wod.video_link}}&showinfo=0&autohide=1"></iframe>
-                    </div>
-                    {% endif %}
-                    {% if wod.image_link %}
-                    <img src="{{ wod.image_link }}" class="img-fluid" alt="{{ wod.image_link }}">
-                    {% endif %}
-                    {% if wod.description %}
-                    <pre class="pb-4"><code>
-                        {{ wod.description }}
-                    </code></pre>
-                    {% endif %}
+                    {% for resource in wod.resources %}
+                        {% if resource.resource_type == 'v' %}
+                            <div class="embed-responsive embed-responsive-4by3" style="{% if forloop.first %} border-radius: 21px 21px 0 0; {% endif %}">
+                                <iframe class="embed-responsive-item" src="{{resource.link}}"></iframe>
+                            </div>
+                        {% elif resource.resource_type == 'i' %}
+                            <img src="{{ wod.link }}" class="img-fluid" alt="{{ wod.link }}" style="{% if forloop.first %} border-radius: 21px 21px 0 0; {% endif %}">
+                        {% endif %}
+                    {% endfor %}
+{#                    {% if wod.description %}#}
+{#                    <pre class="pb-4"><code>#}
+{#                        {{ wod.description }}#}
+{#                    </code></pre>#}
+{#                    {% endif %}#}
                 {% else %}
                     <pre class="pb-4"><code>
                     Comming soon
