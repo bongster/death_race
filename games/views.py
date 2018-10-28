@@ -17,7 +17,7 @@ class DefaultContextMixin(TemplateView):
         if kwargs.get('game_id'):
             context['game_id'] = kwargs['game_id']
             context['game'] = Game.objects.get(id=kwargs['game_id'])
-            context['competitions'] = Competition.objects.filter(game_id=context['game'].id)
+            context['competitions'] = Competition.objects.filter(game_id=context['game'].id).order_by('id')
             context['sponsors'] = Sponsor.objects.filter(
                 id__in=Game2Sponsor.objects.filter(game_id=context['game'].id).values_list('sponsor_id', flat=True)
             )
