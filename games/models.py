@@ -3,6 +3,7 @@ from django.conf import settings
 from django.utils.html import format_html
 
 from death_race.utils import get_or_none
+from commons.models import Resource
 
 
 class Game(models.Model):
@@ -74,6 +75,22 @@ class Game(models.Model):
                     is_active=True
                 ).values_list('sponsor_id', flat=True)
             ).values('name')
+        )
+
+    def image_resources(self):
+        return Resource.objects.filter(
+            model_type=Resource.MODEL_TYPE_GAME,
+            model_id=self.id,
+            resource_type=Resource.RESOURCE_TYPE_IMAGE,
+            is_active=True,
+        )
+
+    def video_resources(self):
+        return Resource.objects.filter(
+            model_type=Resource.MODEL_TYPE_GAME,
+            model_id=self.id,
+            resource_type=Resource.RESOURCE_TYPE_VIDEO,
+            is_active=True,
         )
 
 
@@ -176,6 +193,22 @@ class WOD(models.Model):
             return competition.name
 
         return ''
+
+    def image_resources(self):
+        return Resource.objects.filter(
+            model_type=Resource.MODEL_TYPE_WOD,
+            model_id=self.id,
+            resource_type=Resource.RESOURCE_TYPE_IMAGE,
+            is_active=True,
+        )
+
+    def video_resources(self):
+        return Resource.objects.filter(
+            model_type=Resource.MODEL_TYPE_WOD,
+            model_id=self.id,
+            resource_type=Resource.RESOURCE_TYPE_VIDEO,
+            is_active=True,
+        )
 
 
 class WOD2Competition(models.Model):
