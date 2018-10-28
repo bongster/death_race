@@ -48,15 +48,15 @@
                 <h2 class="display-5"> NO WOD </h2>
                 {% endif %}
             </div>
-            <div class="bg-light shadow-sm mx-auto" style="width: 80%; border-radius: 21px 21px 0 0;">
+            <div class="bg-light shadow-sm mx-auto" style="border-radius: 21px 21px 0 0;">
                 {% if wod.is_active %}
                     {% for resource in wod.resources %}
                         {% if resource.resource_type == 'v' %}
-                            <div class="embed-responsive embed-responsive-4by3" style="{% if forloop.first %} border-radius: 21px 21px 0 0; {% endif %}">
+                            <div class="embed-responsive embed-responsive-16by9" style="{% if forloop.first %} border-radius: 21px 21px 0 0; {% endif %}">
                                 <iframe class="embed-responsive-item" src="{{resource.link}}"></iframe>
                             </div>
                         {% elif resource.resource_type == 'i' %}
-                            <img src="{{ resource.link }}" class="img-fluid" alt="{{ resource.link }}" style="{% if forloop.first %} border-radius: 21px 21px 0 0; {% endif %}">
+                            <img src="{{ resource.link }}" class="img-fluid w-100" alt="{{ resource.link }}" style="{% if forloop.first %} border-radius: 21px 21px 0 0; {% endif %}">
                         {% endif %}
                     {% endfor %}
 {#                    {% if wod.description %}#}
