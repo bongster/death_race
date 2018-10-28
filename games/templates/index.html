@@ -1,8 +1,15 @@
 {% extends 'base2.html' %}
 
 {% block content %}
-<img src="{{ MEDIA_URL }}{{game.main_image}}" class="img-fluid" alt="{{ game.name }}">
-
+{% for resource in game.resources %}
+    {% if resource.resource_type == 'v' %}
+        <div class="embed-responsive embed-responsive-16by9">
+            <iframe class="embed-responsive-item" src="{{resource.link}}"></iframe>
+        </div>
+    {% elif resource.resource_type == 'i' %}
+        <img src="{{ MEDIA_URL }}{{game.main_image}}" class="img-fluid" alt="{{ resource.link }}">
+    {% endif %}
+{% endfor %}
 {% if sponsors %}
 <span class="d-block p-3 bg-dark text-white text-uppercase mt-4 mb-4">sponsors</span>
 {% endif %}
