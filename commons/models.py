@@ -20,7 +20,7 @@ class Resource(models.Model):
     MODEL_TYPE_GAME = 'g'
     MODEL_TYPE_WOD = 'w'
     MODEL_TYPES = (
-        # (MODEL_TYPE_GAME, 'GAME'),
+        (MODEL_TYPE_GAME, 'GAME'),
         (MODEL_TYPE_WOD, 'WOD'),
     )
 
