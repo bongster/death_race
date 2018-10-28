@@ -15,9 +15,7 @@
 {% endif %}
 <div class="d-flex flex-wrap">
     {% for sponsor in sponsors %}
-        <div class="p-2 bd-highlight col-4">
-            <img src="{{ sponsor.image_link }}" class="figure-img img-fluid rounded" alt="{{ sponsor.description }}">
-        </div>
+        <img src="{{ sponsor.image_link }}" class="img-thumbnail border-0 col-6" style="height: 250px;" alt="{{ sponsor.description }}">
     {% endfor %}
 </div>
 
