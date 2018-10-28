@@ -148,36 +148,3 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         context['leaderboard'] = leaderboard
         context['form'] = form
         return context
-
-
-class WODView(DefaultContextMixin, TemplateView):
-    template_name = 'wod/index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(WODView, self).get_context_data(**kwargs)
-        game = context['game']
-        wod_ids = WOD2Game.objects.filter(
-            game_id=game.id,
-            is_active=True,
-        ).order_by('order').values_list('wod_id', flat=True)
-        print(wod_ids)
-
-        wods = WOD.objects.filter(
-            pk__in=wod_ids,
-        )
-        context_wods = {}
-        for wod_id in wod_ids:
-            wod = list(filter(lambda x: x.id == wod_id, wods))[0]
-            context_wods[wod_id] = wod
-
-        context['wods'] = context_wods
-
-        return context
-
-
-class WODDetailView(DefaultContextMixin, TemplateView):
-    template_name = 'wod/index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(WODDetailView, self).get_context_data(**kwargs)
-        return context
