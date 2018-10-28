@@ -17,9 +17,13 @@ class DefaultContextMixin(TemplateView):
         if kwargs.get('game_id'):
             context['game_id'] = kwargs['game_id']
             context['game'] = Game.objects.get(id=kwargs['game_id'])
-            context['competitions'] = Competition.objects.filter(game_id=context['game'].id).order_by('id')
+            context['competitions'] = Competition.objects.filter(
+                game_id=context['game'].id,
+                is_active=True,
+            ).order_by('id')
             context['sponsors'] = Sponsor.objects.filter(
-                id__in=Game2Sponsor.objects.filter(game_id=context['game'].id).values_list('sponsor_id', flat=True)
+                id__in=Game2Sponsor.objects.filter(game_id=context['game'].id).values_list('sponsor_id', flat=True),
+                is_active=True,
             )
         if kwargs.get('competition_id'):
             context['competition_id'] = kwargs['competition_id']
@@ -92,11 +96,13 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         )
 
         competition_list = Competition.objects.filter(
-            game_id=game.id
+            game_id=game.id,
+            is_active=True,
         )
 
         wod_list = WOD.objects.filter(
-            competition_id__in=competition_list.values_list('id', flat=True)
+            competition_id__in=competition_list.values_list('id', flat=True),
+            is_active=True,
         )
 
         if search:
