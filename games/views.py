@@ -87,6 +87,7 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         division = form.data.get('division')
         search = form.data.get('search')
         competition = form.data.get('competition')
+        team_type = form.data.get('team_type')
 
         team_list = Team.objects.filter(
             id__in=Team2Game.objects.filter(
@@ -105,6 +106,11 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
             is_active=True,
         )
 
+        if team_type:
+            team_list = team_list.filter(
+                team_type=team_type
+            )
+
         if search:
             team_list = team_list.filter(
                 name__contains=search,
@@ -121,7 +127,7 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         team_map = {team.id: team for team in team_list}
 
         leaderboard = {
-            'header': ['name', 'point'],
+            'header': ['type', 'name', 'point'],
             'data': []
         }
 
@@ -130,7 +136,7 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         leaderboard['header'].extend([wod.name for wod in wod_list])
 
         for team in team_list:
-            data = [team.name, 0]
+            data = [team.team_type.upper(), team.name , 0]
             team_records = {record['wod_id']: record for record in Record.objects.filter(
                 team_id=team.id,
                 is_active=True,
@@ -141,7 +147,7 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
                     point=0,
                 )
                 team_record['score']
-                data[1] += team_record['point']
+                data[2] += team_record['point']
 
                 data.append(team_record['score'])
 

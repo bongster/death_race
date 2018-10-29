@@ -74,6 +74,11 @@ class LeaderboardForm(forms.Form):
                                      'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
                                  }))
 
+    team_type = forms.ChoiceField(required=False, choices=((None, 'All'),) + Team.TEAM_TYPE,
+                                  widget=forms.Select(attrs={
+                                      'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
+                                  }))
+
 
 class CompetitionForm(forms.ModelForm):
     game_id = CustomChoiceField(
