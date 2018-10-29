@@ -255,6 +255,9 @@ class Team2Game(models.Model):
     """
     class Meta:
         db_table = 'teams_2_games'
+        unique_together = (
+            ('team_id', 'game_id')
+        )
     
     team_id = models.PositiveSmallIntegerField(db_index=True)
     game_id = models.PositiveSmallIntegerField(db_index=True)
