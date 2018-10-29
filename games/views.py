@@ -101,6 +101,9 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
             is_active=True,
         )
 
+        if competition:
+            competition_list = competition_list.filter(id=competition)
+
         wod_list = WOD.objects.filter(
             competition_id__in=competition_list.values_list('id', flat=True),
             is_active=True,
@@ -120,9 +123,6 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
             team_list = team_list.filter(
                 gender_type=division,
             )
-
-        if competition:
-            competition_list.filter(id=competition)
 
         team_map = {team.id: team for team in team_list}
 
