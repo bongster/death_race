@@ -67,6 +67,58 @@ class ExportCsvMixin:
 
     export_as_csv.short_description = "Export Selected"
 
+
+class WODNameListFilter(admin.SimpleListFilter):
+    title = 'WOD name'
+    parameter_name = 'wod_id'
+
+    def lookups(self, request, model_admin):
+        names = WOD.objects.all().values_list('id', 'name')
+        print(names)
+        return names
+
+    def queryset(self, request, queryset):
+        q = Record.objects.filter()
+        if self.value():
+            return q.filter(
+                wod_id=self.value()
+            )
+
+        return q
+
+
+class TeamNameListFilter(admin.SimpleListFilter):
+    title = 'Team name'
+    parameter_name = 'team_id'
+
+    def lookups(self, request, model_admin):
+        names = Team.objects.all().values_list('id', 'name')
+        print(names)
+        return names
+
+
+class RecordWODNameListFilter(WODNameListFilter):
+    def queryset(self, request, queryset):
+        q = Record.objects.filter()
+        if self.value():
+            return q.filter(
+                wod_id=self.value()
+            )
+
+        return q
+
+
+class RecordTeamNameListFilter(TeamNameListFilter):
+    def queryset(self, request, queryset):
+        q = Record.objects.filter()
+        if self.value():
+            return q.filter(
+                team_id=self.value()
+            )
+
+        return q
+
+
 @admin.register(Record)
 class RecordAdmin(admin.ModelAdmin, ExportCsvMixin):
     form = RecordForm
@@ -78,6 +130,7 @@ class RecordAdmin(admin.ModelAdmin, ExportCsvMixin):
         'point',
         'is_active'
     ]
+    list_filter = (RecordWODNameListFilter, RecordTeamNameListFilter, 'is_active')
     actions = ["export_as_csv"]
 
     change_list_template = "entities/records_changelist.html"
