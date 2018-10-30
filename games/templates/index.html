@@ -7,7 +7,7 @@
             <iframe class="embed-responsive-item" src="{{resource.link}}"></iframe>
         </div>
     {% elif resource.resource_type == 'i' %}
-        <img src="{{ MEDIA_URL }}{{game.main_image}}" class="img-fluid" alt="{{ resource.link }}">
+        <img src="{{ resource.link }}" class="img-fluid" alt="{{ resource.link }}">
     {% endif %}
 {% endfor %}
 {% if sponsors %}

@@ -88,6 +88,7 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         search = form.data.get('search')
         competition = form.data.get('competition')
         team_type = form.data.get('team_type')
+        sort_key = form.data.get('sort_key')
 
         team_list = Team.objects.filter(
             id__in=Team2Game.objects.filter(
@@ -132,6 +133,11 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         }
 
         wod_ids = [wod.id for wod in wod_list]
+        if sort_key:
+            sort_key = 2 + wod_ids.index(int(sort_key)) + 1
+            print('sort_key: {}'.format(sort_key))
+        else:
+            sort_key = 2
 
         leaderboard['header'].extend([wod.name for wod in wod_list])
 
@@ -154,7 +160,7 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
             leaderboard['data'].append(data)
 
         # TODO: sort by point
-        sorted(leaderboard['data'], key=lambda data: data[1], reverse=True)
+        leaderboard['data'] = sorted(leaderboard['data'], key=lambda data: (data[sort_key] is 0, data[sort_key]))
 
         context['team_map'] = team_map
         context['leaderboard'] = leaderboard

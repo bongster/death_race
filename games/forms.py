@@ -51,30 +51,34 @@ class LeaderboardForm(forms.Form):
         'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
     }))
 
-    division = forms.ChoiceField(required=False, choices=((None, 'All'),) + Team.GENTER_TYPE,
+    division = forms.ChoiceField(required=False, choices=((None, 'Gender'),) + Team.GENTER_TYPE,
                                  widget=forms.Select(attrs={
                                      'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
                                  }))
 
     def __init__(self, game_id, *args, **kwargs):
         super(LeaderboardForm, self).__init__(*args, **kwargs)
-        self.fields['wod'].queryset = WOD.objects.filter(
-            id__in=WOD2Game.objects.filter(
-                game_id=game_id
+        self.fields['sort_key'].queryset = WOD.objects.filter(
+            id__in=WOD.objects.filter(
+                competition_id__in=Competition.objects.filter(
+                    game_id=game_id,
+                    is_active=True
+                ).values_list('id', flat=True),
+                is_active=True,
             )
         )
 
-    competition = CustomModelChoiceField(required=False, queryset=Competition.objects.all(), empty_label='All',
+    competition = CustomModelChoiceField(required=False, queryset=Competition.objects.all(), empty_label='Competition',
                                          widget=forms.Select(attrs={
                                              'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
                                          }))
 
-    wod = CustomModelChoiceField(required=False, queryset=WOD.objects.all(), label='sort', empty_label='All',
-                                 widget=forms.Select(attrs={
-                                     'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
-                                 }))
+    sort_key = CustomModelChoiceField(required=False, queryset=WOD.objects.all(), label='sort', empty_label='Sort',
+                                      widget=forms.Select(attrs={
+                                          'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
+                                      }))
 
-    team_type = forms.ChoiceField(required=False, choices=((None, 'All'),) + Team.TEAM_TYPE,
+    team_type = forms.ChoiceField(required=False, choices=((None, 'Type'),) + Team.TEAM_TYPE,
                                   widget=forms.Select(attrs={
                                       'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
                                   }))
