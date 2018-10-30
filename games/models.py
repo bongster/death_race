@@ -1,5 +1,7 @@
 from django.db import models
 from django.conf import settings
+from django.db.models.signals import pre_delete, post_delete
+from django.dispatch import receiver
 from django.utils.html import format_html
 
 from death_race.utils import get_or_none
@@ -248,6 +250,23 @@ class Team(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+@receiver(pre_delete, sender=Team)
+def pre_delete_team(sender, instance, using, **kwargs):
+    Team2Game.objects.filter(
+        team_id=instance.id
+    ).delete()
+
+    Record.objects.filter(
+        team_id=instance.id
+    ).delete()
+
+
+@receiver(post_delete, sender=Team)
+def post_delete_team(sender, instance, using, **kwargs):
+    # team 삭제시에 team2competition에 있는 데이터도 제거.
+    pass
 
 
 class Team2Game(models.Model):
