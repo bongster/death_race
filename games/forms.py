@@ -84,25 +84,28 @@ class RecordForm(forms.ModelForm):
         fields = '__all__'
 
 
-class CustomModelChoiceField(forms.ModelChoiceField):
-    def label_from_instance(self, obj):
-        return "%s" % obj.name
-
-
-class WODModelChoiceField(forms.ModelChoiceField):
+class CustomUIModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
         return "%s" % obj.name
 
 
 class LeaderboardForm(forms.Form):
-    search = forms.CharField(required=False, initial='', widget=forms.TextInput(attrs={
-        'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
-    }))
+    search = forms.CharField(
+        required=False,
+        initial='',
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
+            }
+        )
+    )
 
-    division = forms.ChoiceField(required=False, choices=((None, 'Gender'),) + Team.GENTER_TYPE,
-                                 widget=forms.Select(attrs={
-                                     'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
-                                 }))
+    division = forms.ChoiceField(
+        required=False,
+        choices=((None, 'Gender'),) + Team.GENTER_TYPE,
+        widget=forms.Select(attrs={
+            'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
+        }))
 
     def __init__(self, game_id, *args, **kwargs):
         super(LeaderboardForm, self).__init__(*args, **kwargs)
@@ -116,20 +119,37 @@ class LeaderboardForm(forms.Form):
             )
         )
 
-    competition = CustomModelChoiceField(required=False, queryset=Competition.objects.all(), empty_label='Competition',
-                                         widget=forms.Select(attrs={
-                                             'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
-                                         }))
+    competition = CustomUIModelChoiceField(
+        required=False,
+        queryset=Competition.objects.all(),
+        empty_label='Competition',
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
+            }
+        )
+    )
 
-    sort_key = CustomModelChoiceField(required=False, queryset=WOD.objects.all(), label='sort', empty_label='Sort',
-                                      widget=forms.Select(attrs={
-                                          'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
-                                      }))
+    sort_key = CustomUIModelChoiceField(
+        required=False, queryset=WOD.objects.all(),
+        label='sort',
+        empty_label='Sort',
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
+            }
+        )
+    )
 
-    team_type = forms.ChoiceField(required=False, choices=((None, 'Type'),) + Team.TEAM_TYPE,
-                                  widget=forms.Select(attrs={
-                                      'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
-                                  }))
+    team_type = forms.ChoiceField(
+        required=False,
+        choices=((None, 'Type'),) + Team.TEAM_TYPE,
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control mb-2 mr-sm-2 mb-sm-0 bd-highlight'
+            }
+        )
+    )
 
 
 class CompetitionForm(forms.ModelForm):
