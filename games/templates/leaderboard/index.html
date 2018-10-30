@@ -14,6 +14,9 @@
     <label class="sr-only">{{ form.search.label }} </label>
     <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0 flex-grow-1 bd-highlight" name="search" id="control-search" value="{{form.search.value|default:''}}" placeholder="Search name...">
 
+    <label class="sr-only">{{ form.sort_key.label }} </label>
+    {{ form.sort_key }}
+
     <button class="btn btn-dark bd-highlight" type="submit">Search&nbsp;&nbsp;<i class="fas fa-search fa-x"></i></button>
 </form>
 
