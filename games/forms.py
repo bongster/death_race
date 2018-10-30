@@ -9,9 +9,29 @@ class CustomChoiceField(forms.ChoiceField):
         return "%s %s" % (obj.id, obj.name)
 
 
+class CustomModelChoiceField(forms.ModelChoiceField):
+    def label_from_instance(self, obj):
+        return "%s %s" % (obj.id, obj.name)
+
+
 class WOD2GameForm(forms.ModelForm):
-    wod_id = CustomChoiceField(choices=WOD.objects.all().order_by('name').values_list('id', 'name'))
-    game_id = CustomChoiceField(choices=Game.objects.all().order_by('name').values_list('id', 'name'))
+    wod_id = CustomModelChoiceField(
+        queryset=WOD.objects.order_by('name'),
+        empty_label=None,
+    )
+    game_id = CustomModelChoiceField(
+        queryset=Game.objects.order_by('name'),
+        empty_label=None,
+    )
+
+    def clean(self):
+        if isinstance(self.cleaned_data.get('wod_id'), WOD):
+            self.cleaned_data['wod_id'] = self.cleaned_data['wod_id'].id
+
+        if isinstance(self.cleaned_data.get('game_id'), Game):
+            self.cleaned_data['game_id'] = self.cleaned_data['game_id'].id
+
+        return super().clean()
 
     class Meta:
         model = WOD2Game
@@ -19,8 +39,21 @@ class WOD2GameForm(forms.ModelForm):
 
 
 class Team2GameForm(forms.ModelForm):
-    team_id = CustomChoiceField(choices=Team.objects.all().order_by('name').values_list('id', 'name'))
-    game_id = CustomChoiceField(choices=Game.objects.all().order_by('name').values_list('id', 'name'))
+    team_id = CustomModelChoiceField(
+        queryset=Team.objects.order_by('name'),
+        empty_label=None,
+    )
+    game_id = CustomModelChoiceField(
+        queryset=Game.objects.order_by('name'),
+        empty_label=None,
+    )
+
+    def clean(self):
+        if isinstance(self.cleaned_data.get('team_id'), Team):
+            self.cleaned_data['team_id'] = self.cleaned_data['team_id'].id
+
+        if isinstance(self.cleaned_data.get('game_id'), Game):
+            self.cleaned_data['game_id'] = self.cleaned_data['game_id'].id
 
     class Meta:
         model = Team2Game
@@ -28,8 +61,23 @@ class Team2GameForm(forms.ModelForm):
 
 
 class RecordForm(forms.ModelForm):
-    team_id = CustomChoiceField(choices=Team.objects.all().order_by('name').values_list('id', 'name'))
-    wod_id = CustomChoiceField(choices=WOD.objects.all().order_by('name').values_list('id', 'name'))
+    team_id = CustomModelChoiceField(
+        queryset=Team.objects.order_by('name'),
+        empty_label=None,
+    )
+    wod_id = CustomModelChoiceField(
+        queryset=WOD.objects.order_by('name'),
+        empty_label=None,
+    )
+
+    def clean(self):
+        if isinstance(self.cleaned_data.get('team_id'), Team):
+            self.cleaned_data['team_id'] = self.cleaned_data['team_id'].id
+
+        if isinstance(self.cleaned_data.get('wod_id'), WOD):
+            self.cleaned_data['wod_id'] = self.cleaned_data['wod_id'].id
+
+        return super().clean()
 
     class Meta:
         model = Record
@@ -85,9 +133,16 @@ class LeaderboardForm(forms.Form):
 
 
 class CompetitionForm(forms.ModelForm):
-    game_id = CustomChoiceField(
-        choices=Game.objects.all().order_by('name').values_list('id', 'name')
+    game_id = CustomModelChoiceField(
+        queryset=Game.objects.order_by('name'),
+        required=False,
     )
+
+    def clean(self):
+        if isinstance(self.cleaned_data.get('game_id'), Game):
+            self.cleaned_data['game_id'] = self.cleaned_data['game_id'].id
+
+        return super().clean()
 
     class Meta:
         model = Competition
@@ -95,9 +150,15 @@ class CompetitionForm(forms.ModelForm):
 
 
 class WODForm(forms.ModelForm):
-    competition_id = CustomChoiceField(
-        choices=Competition.objects.all().order_by('name').values_list('id', 'name'),
+    competition_id = CustomModelChoiceField(
+        queryset=Competition.objects.order_by('name'),
+        required=False,
     )
+
+    def clean(self):
+        if isinstance(self.cleaned_data.get('competition_id'), Competition):
+            self.cleaned_data['competition_id'] = self.cleaned_data['competition_id'].id
+        return super().clean()
 
     class Meta:
         model = WOD
@@ -111,8 +172,23 @@ class SponsorForm(forms.ModelForm):
 
 
 class Game2SponsorForm(forms.ModelForm):
-    game_id = CustomChoiceField(choices=Game.objects.all().order_by('name').values_list('id', 'name'))
-    sponsor_id = CustomChoiceField(choices=Sponsor.objects.all().order_by('name').values_list('id', 'name'))
+    game_id = CustomModelChoiceField(
+        queryset=Game.objects.order_by('name'),
+        empty_label=None,
+    )
+    sponsor_id = CustomModelChoiceField(
+        queryset=Sponsor.objects.order_by('name'),
+        empty_label=None,
+    )
+
+    def clean(self):
+        if isinstance(self.cleaned_data.get('game_id'), Game):
+            self.cleaned_data['game_id'] = self.cleaned_data['game_id'].id
+
+        if isinstance(self.cleaned_data.get('sponsor_id'), Sponsor):
+            self.cleaned_data['sponsor_id'] = self.cleaned_data['sponsor_id'].id
+
+        return super().clean()
 
     class Meta:
         model = Game2Sponsor
