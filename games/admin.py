@@ -46,7 +46,14 @@ class TeamAdmin(admin.ModelAdmin):
 @admin.register(Team2Game)
 class Team2GameAdmin(admin.ModelAdmin):
     form = Team2GameForm
-    list_display = [field.name for field in Team2Game._meta.get_fields()]
+    list_display = [
+        'id',
+        'team_name',
+        'game_name',
+        'created_at',
+        'updated_at',
+        'is_active',
+    ]
 
 
 class ExportCsvMixin:
@@ -143,21 +150,40 @@ class RecordAdmin(admin.ModelAdmin, ExportCsvMixin):
 @admin.register(Competition)
 class CompetitionAdmin(admin.ModelAdmin):
     form = CompetitionForm
-    list_display = [field.name for field in Competition._meta.get_fields()] + [
+    list_display = [
+        'id',
+        'name',
         'game_name',
         'wod_list',
+        'created_at',
+        'updated_at',
+        'is_active',
     ]
 
 
 @admin.register(Sponsor)
 class SponsorAdmin(admin.ModelAdmin):
     form = SponsorForm
-    list_display = [field.name for field in Sponsor._meta.get_fields()] + [
+    list_display = [
+        'id',
+        'name',
+        'description',
+        'image_link',
         'participated_game_list',
+        'created_at',
+        'updated_at',
+        'is_active',
     ]
 
 
 @admin.register(Game2Sponsor)
 class Game2SponsorAdmin(admin.ModelAdmin):
     form = Game2SponsorForm
-    list_display = [field.name for field in Game2Sponsor._meta.get_fields()]
+    list_display = [
+        'id',
+        'game_name',
+        'sponsor_name',
+        'created_at',
+        'updated_at',
+        'is_active',
+    ]

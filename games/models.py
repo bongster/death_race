@@ -107,7 +107,11 @@ class Competition(models.Model):
             return game[0].name
 
     def wod_list(self):
-        return format_html('{}', WOD.objects.filter(competition_id=self.id).values('name'))
+        return format_html('{}', ','.join(
+            [
+                wod['name']for wod in WOD.objects.filter(competition_id=self.id).values('name')
+            ]
+        ))
 
 
 class Team2Competition(models.Model):
@@ -267,6 +271,11 @@ class Team2Game(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def team_name(self):
+        return Team.objects.get(id=self.team_id).name
+
+    def game_name(self):
+        return Game.objects.get(id=self.game_id).name
 
 class Record(models.Model):
     """
@@ -311,11 +320,15 @@ class Sponsor(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def participated_game_list(self):
-        return Game.objects.filter(
-            pk__in=Game2Sponsor.objects.filter(
-                sponsor_id=self.id,
-                is_active=True
-            ).values_list('game_id', flat=True)
+        return ','.join(
+            [
+                game.name for game in Game.objects.filter(
+                    pk__in=Game2Sponsor.objects.filter(
+                        sponsor_id=self.id,
+                        is_active=True
+                    ).values_list('game_id', flat=True)
+                )
+            ]
         )
 
 
@@ -333,3 +346,9 @@ class Game2Sponsor(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def game_name(self):
+        return Game.objects.get(pk=self.game_id).name
+
+    def sponsor_name(self):
+        return Sponsor.objects.get(pk=self.sponsor_id).name

@@ -10,8 +10,8 @@ class CustomChoiceField(forms.ChoiceField):
 
 
 class WOD2GameForm(forms.ModelForm):
-    wod_id = CustomChoiceField(choices=WOD.objects.all().values_list('id', 'name'))
-    game_id = CustomChoiceField(choices=Game.objects.all().values_list('id', 'name'))
+    wod_id = CustomChoiceField(choices=WOD.objects.all().order_by('name').values_list('id', 'name'))
+    game_id = CustomChoiceField(choices=Game.objects.all().order_by('name').values_list('id', 'name'))
 
     class Meta:
         model = WOD2Game
@@ -19,8 +19,8 @@ class WOD2GameForm(forms.ModelForm):
 
 
 class Team2GameForm(forms.ModelForm):
-    team_id = CustomChoiceField(choices=Team.objects.all().values_list('id', 'name'))
-    game_id = CustomChoiceField(choices=Game.objects.all().values_list('id', 'name'))
+    team_id = CustomChoiceField(choices=Team.objects.all().order_by('name').values_list('id', 'name'))
+    game_id = CustomChoiceField(choices=Game.objects.all().order_by('name').values_list('id', 'name'))
 
     class Meta:
         model = Team2Game
@@ -28,8 +28,8 @@ class Team2GameForm(forms.ModelForm):
 
 
 class RecordForm(forms.ModelForm):
-    team_id = CustomChoiceField(choices=Team.objects.all().values_list('id', 'name'))
-    wod_id = CustomChoiceField(choices=WOD.objects.all().values_list('id', 'name'))
+    team_id = CustomChoiceField(choices=Team.objects.all().order_by('name').values_list('id', 'name'))
+    wod_id = CustomChoiceField(choices=WOD.objects.all().order_by('name').values_list('id', 'name'))
 
     class Meta:
         model = Record
@@ -86,7 +86,7 @@ class LeaderboardForm(forms.Form):
 
 class CompetitionForm(forms.ModelForm):
     game_id = CustomChoiceField(
-        choices=Game.objects.all().values_list('id', 'name')
+        choices=Game.objects.all().order_by('name').values_list('id', 'name')
     )
 
     class Meta:
@@ -96,7 +96,7 @@ class CompetitionForm(forms.ModelForm):
 
 class WODForm(forms.ModelForm):
     competition_id = CustomChoiceField(
-        choices=Competition.objects.all().values_list('id', 'name'),
+        choices=Competition.objects.all().order_by('name').values_list('id', 'name'),
     )
 
     class Meta:
@@ -111,8 +111,8 @@ class SponsorForm(forms.ModelForm):
 
 
 class Game2SponsorForm(forms.ModelForm):
-    game_id = CustomChoiceField(choices=Game.objects.all().values_list('id', 'name'))
-    sponsor_id = CustomChoiceField(choices=Sponsor.objects.all().values_list('id', 'name'))
+    game_id = CustomChoiceField(choices=Game.objects.all().order_by('name').values_list('id', 'name'))
+    sponsor_id = CustomChoiceField(choices=Sponsor.objects.all().order_by('name').values_list('id', 'name'))
 
     class Meta:
         model = Game2Sponsor
