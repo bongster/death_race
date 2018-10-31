@@ -8,22 +8,22 @@
             {% if forloop.first %} 
                 <a
                     class="nav-link active show"
-                    id="pills-{{ wod.name }}-tab"
+                    id="pills-{{ wod.id }}-tab"
                     data-toggle="pill"
-                    href="#pills-{{ wod.name }}"
+                    href="#pills-{{ wod.id }}"
                     role="tab"
-                    aria-controls="pills-{{ wod.name }}"
+                    aria-controls="pills-{{ wod.id }}"
                     aria-selected="true">
                     WOD&nbsp;{{ forloop.counter }}
                 </a>
             {% else %}
                 <a
                     class="nav-link"
-                    id="pills-{{ wod.name }}-tab"
+                    id="pills-{{ wod.id }}-tab"
                     data-toggle="pill"
-                    href="#pills-{{ wod.name }}"
+                    href="#pills-{{ wod.id }}"
                     role="tab"
-                    aria-controls="pills-{{ wod.name }}"
+                    aria-controls="pills-{{ wod.id }}"
                     aria-selected="false">
                     WOD&nbsp;{{ forloop.counter }}
                 </a>
@@ -36,9 +36,9 @@
 <div class="tab-content" id="pills-tabContent">
     {% for id, wod in wods.items %}
         {% if forloop.first %}
-            <div class="tab-pane fade show active" id="pills-{{ wod.name }}" role="tabpanel" aria-labelledby="pills-{{ wod.name }}-tab">
+            <div class="tab-pane fade show active" id="pills-{{ wod.id }}" role="tabpanel" aria-labelledby="pills-{{ wod.id }}-tab">
         {% else %}
-            <div class="tab-pane fade" id="pills-{{ wod.name }}" role="tabpanel" aria-labelledby="pills-{{ wod.name }}-tab">
+            <div class="tab-pane fade" id="pills-{{ wod.id }}" role="tabpanel" aria-labelledby="pills-{{ wod.id }}-tab">
         {% endif %}
         <div class="bg-dark pt-3 px-3 pt-md-5 px-md-5 text-center text-white">
             <div class="my-3 py-3">
