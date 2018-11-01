@@ -94,7 +94,7 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
             id__in=Team2Game.objects.filter(
                 game_id=game.id,
                 is_active=True,
-            )
+            ).values_list('team_id', flat=True),
         )
 
         competition_list = Competition.objects.filter(
