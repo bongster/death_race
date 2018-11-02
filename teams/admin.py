@@ -6,4 +6,11 @@ from .models import Team2User
 
 @admin.register(Team2User)
 class Team2UserAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Team2User._meta.get_fields()]
+    list_display = [
+        'id',
+        'user',
+        'team',
+        'created_at',
+        'updated_at',
+        'is_active'
+    ]

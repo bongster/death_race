@@ -250,10 +250,10 @@ class Team(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return '[{}] {}'.format(self.id, self.name)
+        return '({}) {}'.format(self.id, self.name)
 
     def __str__(self):
-        return '[{}] {}'.format(self.id, self.name)
+        return '({}) {}'.format(self.id, self.name)
 
 class Team2Game(models.Model):
     """
