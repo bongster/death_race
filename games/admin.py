@@ -40,7 +40,15 @@ class WOD2GameAdmin(admin.ModelAdmin):
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Team._meta.get_fields()]
+    list_display = [
+        'id',
+        'name',
+        'team_type',
+        'gender_type',
+        'created_at',
+        'updated_at',
+        'is_active',
+    ]
 
 
 @admin.register(Team2Game)
