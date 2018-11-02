@@ -11,6 +11,7 @@ from django.urls import path
 from commons.forms import CsvImportForm
 from death_race.utils import get_or_none
 from .models import Game, WOD, WOD2Game, Team, Team2Game, Record, Competition, Sponsor, Game2Sponsor
+from commons.models import Resource
 from .forms import WOD2GameForm, Team2GameForm, RecordForm, WODForm, CompetitionForm, SponsorForm, Game2SponsorForm
 
 
@@ -91,7 +92,8 @@ class RecordAdmin(admin.ModelAdmin, ExportCsvMixin):
         'team_name',
         'score',
         'point',
-        'is_active'
+        'is_active',
+        'video_url',
     ]
     actions = ["export_as_csv"]
 
@@ -144,6 +146,26 @@ class RecordAdmin(admin.ModelAdmin, ExportCsvMixin):
                     record.point = row['point']
                     record.score = row['score']
                     record.save()
+
+                    # TODO: set record resource video url
+                    video_url = row.get('video_url')
+                    if video_url:
+                        resource = get_or_none(Resource,
+                            model_type=Resource.MODEL_TYPE_RECORD,
+                            model_id=record.id,
+                        )
+
+                        if resource:
+                            resource.link = video_url
+                            resource.is_active=True
+                        else:
+                            resource = Resource(
+                                model_type=Resource.MODEL_TYPE_RECORD,
+                                model_id=record.id,
+                                link = video_url,
+                                is_active=True,
+                            )
+                        resource.save()
                     count += 1
             # Create Hero objects from passed in data
             # ...
