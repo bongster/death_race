@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'games',
     'commons',
+    'teams',
 ]
 
 MIDDLEWARE = [
