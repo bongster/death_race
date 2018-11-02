@@ -310,6 +310,15 @@ class Record(models.Model):
             team.name,
             team.team_type,
         )
+    
+    def video_url(self):
+        resource = get_or_none(Resource,
+            model_type=Resource.MODEL_TYPE_RECORD,
+            model_id=self.id,
+            is_active=True,
+        )
+        if resource:
+            return resource.link
 
 class Sponsor(models.Model):
     class Meta:

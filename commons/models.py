@@ -24,9 +24,11 @@ class Resource(models.Model):
 
     MODEL_TYPE_GAME = 'g'
     MODEL_TYPE_WOD = 'w'
+    MODEL_TYPE_RECORD = 'r'
     MODEL_TYPES = (
         (MODEL_TYPE_GAME, 'GAME'),
         (MODEL_TYPE_WOD, 'WOD'),
+        (MODEL_TYPE_RECORD, 'RECORD'),
     )
 
     resource_type = models.CharField(max_length=10, choices=RESOURCE_TYPES, default=RESOURCE_TYPE_IMAGE)
