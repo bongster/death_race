@@ -1,6 +1,6 @@
 from django.db import models
 from games.models import Team
-from django.contrib.auth import get_user_model
+from users.models import User
 
 # Create your models here.
 
@@ -10,7 +10,7 @@ class Team2User(models.Model):
         db_table = 'teams_2_users'
 
     user = models.ForeignKey(
-        get_user_model(),
+        User,
         on_delete=models.CASCADE,
     )
 

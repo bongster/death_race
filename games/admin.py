@@ -102,7 +102,7 @@ class RecordAdmin(admin.ModelAdmin, ExportCsvMixin):
     ]
     actions = ["export_as_csv"]
 
-    change_list_template = "entities/records_changelist.html"
+    change_list_template = "entities/import_csv.html"
 
     def get_urls(self):
         urls = super().get_urls()
