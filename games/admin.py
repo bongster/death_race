@@ -17,9 +17,14 @@ from .forms import WOD2GameForm, Team2GameForm, RecordForm, WODForm, Competition
 
 @admin.register(Game)
 class GameAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Game._meta.get_fields()] + [
+    list_display = [
+        'id',
+        'name',
+        'description',
+        'start_date',
+        'end_date',
         'logo_image_tag',
-        'main_image_tag',
+        'resources',
         'competition_list',
         'sponed_sponsor_list',
     ]
@@ -33,10 +38,10 @@ class WODAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(WOD2Game)
-class WOD2GameAdmin(admin.ModelAdmin):
-    form = WOD2GameForm
-    list_display = [field.name for field in WOD2Game._meta.get_fields()]
+# @admin.register(WOD2Game)
+# class WOD2GameAdmin(admin.ModelAdmin):
+#     form = WOD2GameForm
+#     list_display = [field.name for field in WOD2Game._meta.get_fields()]
 
 
 @admin.register(Team)

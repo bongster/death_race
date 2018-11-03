@@ -25,9 +25,7 @@ class Game(models.Model):
         db_table = "games"
 
     name = models.CharField(max_length=100)
-
     logo_image = models.ImageField(blank=True, upload_to='games/')
-    main_image = models.ImageField(blank=True, upload_to='games/')
     description = models.TextField(blank=True, default='')
 
     start_date = models.DateTimeField(blank=True, null=True)
@@ -45,15 +43,6 @@ class Game(models.Model):
             image_url,
             settings.MEDIA_URL,
             self.logo_image,
-        )
-
-    def main_image_tag(self):
-        image_url = '{}{}'.format(settings.MEDIA_URL, self.main_image)
-        return format_html(
-            "<a href='{}' target='_blank' ><img src='{}{}' width='144px'></a>",
-            image_url,
-            settings.MEDIA_URL,
-            self.main_image,
         )
 
     def competition_list(self):
@@ -115,6 +104,9 @@ class Competition(models.Model):
 
 
 class Team2Competition(models.Model):
+    """
+    Deprecated
+    """
     class Meta:
         db_table = 'teams_2_competitions'
 
@@ -172,8 +164,6 @@ class WOD(models.Model):
     name = models.CharField(max_length=100)
     wod_type = models.CharField(choices=WOD_TYPE, default=FOR_TIME, max_length=15)
     description = models.TextField(blank=True, default='')
-    video_link = models.URLField(max_length=200, default='', blank=True)
-    image_link = models.URLField(max_length=200, default='', blank=True)
 
     competition_id = models.IntegerField(null=True)
 
@@ -200,6 +190,7 @@ class WOD(models.Model):
 class WOD2Competition(models.Model):
     """
     included wods in game
+    not used
     """
 
     class Meta:
