@@ -25,6 +25,7 @@ class Game(models.Model):
         db_table = "games"
 
     name = models.CharField(max_length=100)
+    logo_image = models.ImageField(blank=True, upload_to='games/')
     description = models.TextField(blank=True, default='')
 
     start_date = models.DateTimeField(blank=True, null=True)
@@ -34,6 +35,15 @@ class Game(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     is_active = models.BooleanField(default=False)
+
+    def logo_image_tag(self):
+        image_url = '{}{}'.format(settings.MEDIA_URL, self.logo_image)
+        return format_html(
+            "<a href='{}' target='_blank' ><img src='{}{}' width='144px'></a>",
+            image_url,
+            settings.MEDIA_URL,
+            self.logo_image,
+        )
 
     def competition_list(self):
 

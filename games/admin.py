@@ -23,6 +23,7 @@ class GameAdmin(admin.ModelAdmin):
         'description',
         'start_date',
         'end_date',
+        'logo_image_tag',
         'resources',
         'competition_list',
         'sponed_sponsor_list',
