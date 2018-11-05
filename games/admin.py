@@ -4,11 +4,11 @@ import io
 from django.contrib import admin
 
 # Register your models here.
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import path
 
 from commons.forms import CsvImportForm
+from commons.utils import ExportCsvMixin
 from death_race.utils import get_or_none
 from .models import Game, WOD, WOD2Game, Team, Team2Game, Record, Competition, Sponsor, Game2Sponsor
 from commons.models import Resource
@@ -70,24 +70,6 @@ class Team2GameAdmin(admin.ModelAdmin):
     ]
 
 
-class ExportCsvMixin:
-    def export_as_csv(self, request, queryset):
-
-        meta = self.model._meta
-        field_names = [field.name for field in meta.fields]
-
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename={}.csv'.format(meta)
-        writer = csv.writer(response)
-
-        writer.writerow(field_names)
-        for obj in queryset:
-            row = writer.writerow([getattr(obj, field) for field in field_names])
-
-        return response
-
-    export_as_csv.short_description = "Export Selected"
-
 @admin.register(Record)
 class RecordAdmin(admin.ModelAdmin, ExportCsvMixin):
     form = RecordForm
@@ -100,9 +82,9 @@ class RecordAdmin(admin.ModelAdmin, ExportCsvMixin):
         'is_active',
         'video_url',
     ]
-    actions = ["export_as_csv"]
+    actions = ['export_as_csv']
 
-    change_list_template = "entities/import_csv.html"
+    change_list_template = 'entities/import_csv.html'
 
     def get_urls(self):
         urls = super().get_urls()
@@ -112,7 +94,7 @@ class RecordAdmin(admin.ModelAdmin, ExportCsvMixin):
         return my_urls + urls
 
     def import_csv(self, request):
-        if request.method == "POST":
+        if request.method == 'POST':
             team_name_ids = {}
             wod_name_ids = {}
             csv_file = io.TextIOWrapper(request.FILES['csv_file'].file, encoding=request.encoding)
@@ -174,12 +156,12 @@ class RecordAdmin(admin.ModelAdmin, ExportCsvMixin):
                     count += 1
             # Create Hero objects from passed in data
             # ...
-            self.message_user(request, "Your csv file has been imported: created or updated {}".format(count))
-            return redirect("..")
+            self.message_user(request, 'Your csv file has been imported: created or updated {}'.format(count))
+            return redirect('..')
         form = CsvImportForm()
-        payload = {"form": form}
+        payload = {'form': form}
         return render(
-            request, "admin/csv_form.html", payload
+            request, 'admin/csv_form.html', payload
         )
 
 @admin.register(Competition)
