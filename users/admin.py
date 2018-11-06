@@ -40,20 +40,25 @@ class UserAdmin(ExportCsvMixin, admin.ModelAdmin):
             for row in reader:
                 name = row['name']
                 email = row['email']
+                gender = row['gender']
                 profile_url = row.get('profile_url')
                 if User.objects.filter(
                     email=email,
                 ).exists():
-                    continue
-                
-                count += 1
-                u = User(
-                    name=name,
-                    email=email
-                )
+                    u = User.objects.get(
+                        email=email,
+                    )
+                else:
+                    u = User(
+                        email=email,
+                        gender=gender,
+                    )
+                u.name = name
+                u.gender = gender
                 if profile_url:
                     u.profile_url = profile_url
                 u.save()
+                count += 1
             self.message_user(request, 'Your csv file has been imported: created or updated {}'.format(count))
             return redirect('..')
         form = CsvImportForm()
