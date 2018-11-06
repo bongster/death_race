@@ -51,7 +51,6 @@ class UserAdmin(ExportCsvMixin, admin.ModelAdmin):
                 else:
                     u = User(
                         email=email,
-                        gender=gender,
                     )
                 u.name = name
                 u.gender = gender
