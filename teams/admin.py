@@ -45,7 +45,7 @@ class Team2UserAdmin(ExportCsvMixin, admin.ModelAdmin):
                 email = row['email']
                 user_email_id_map = {}
                 team_name_id_map = {}
-                is_active = row.get('is_active')
+                is_active = row['is_active']
 
                 user_id = user_email_id_map.get(email)
                 if not user_id:
