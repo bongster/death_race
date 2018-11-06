@@ -17,7 +17,7 @@ class User(models.Model):
     gender = models.CharField(
         choices=GENTER_TYPE, 
         default=MALE,
-         max_length=10
+        max_length=10
     )
 
 
