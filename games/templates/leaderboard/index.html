@@ -24,9 +24,6 @@
     <thead class="thead-dark">
         <tr>
             {% for header in leaderboard.header %}
-                {% if forloop.first %}
-                    <th class="text-uppercase">RANK</th>
-                {% endif %}
                 <th class="text-uppercase">{{ header }}</th>
             {% endfor %}
         </tr>
@@ -34,11 +31,14 @@
     <tbody>
         {% for data in leaderboard.data %}
             <tr>
-                <th class="text-uppercase">{{ forloop.counter }}</th>
                 {% for detail_data in data %}
-                    <td scope="row">
-                        <span>{{ detail_data|default:'-' }}</span>
-                    </td>
+                    {% if forloop.first %}
+                        <th class="text-uppercase">{{ detail_data }}</th>
+                    {% else %}
+                        <td scope="row">
+                            <span>{{ detail_data|default:'-' }}</span>
+                        </td>
+                    {% endif %}
                 {% endfor %}
             </tr>
         {% endfor %}
