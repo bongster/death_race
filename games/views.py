@@ -90,7 +90,7 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         team_type = form.data.get('team_type')
         sort_key = form.data.get('sort_key')
 
-        team_list = Team.objects.filter(
+        team_list = Team.objects.prefetch_related('team2user_set__user').filter(
             id__in=Team2Game.objects.filter(
                 game_id=game.id,
                 is_active=True,
@@ -142,7 +142,18 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         leaderboard['header'].extend([wod.name for wod in wod_list])
 
         for team in team_list:
-            data = [team.team_type.upper(), team.name , 0]
+            if team.team_type == 'individual':
+                team_name = team.name
+            else:
+                team_name = '{} ({})'.format(
+                    team.name,
+                    ', '.join([
+                        user.name for user in [
+                            team2user.user for team2user in team.team2user_set.filter()
+                        ]
+                    ]),
+                )
+            data = [team.team_type.upper(), team_name , 0]
             team_records = {record['wod_id']: record for record in Record.objects.filter(
                 team_id=team.id,
                 is_active=True,
