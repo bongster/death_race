@@ -90,7 +90,7 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         team_type = form.data.get('team_type')
         sort_key = form.data.get('sort_key')
 
-        team_list = Team.objects.filter(
+        team_list = Team.objects.prefetch_related('team2user_set__user').filter(
             id__in=Team2Game.objects.filter(
                 game_id=game.id,
                 is_active=True,
@@ -115,11 +115,6 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
                 team_type=team_type
             )
 
-        if search:
-            team_list = team_list.filter(
-                name__contains=search,
-            )
-
         if division:
             team_list = team_list.filter(
                 gender_type=division,
@@ -142,7 +137,18 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
         leaderboard['header'].extend([wod.name for wod in wod_list])
 
         for team in team_list:
-            data = [team.team_type.upper(), team.name , 0]
+            if team.team_type == 'individual':
+                team_name = team.name
+            else:
+                team_name = '{} ({})'.format(
+                    team.name,
+                    ', '.join([
+                        user.name for user in [
+                            team2user.user for team2user in team.team2user_set.filter()
+                        ]
+                    ]),
+                )
+            data = [team.team_type.upper(), team_name , 0]
             team_records = {record['wod_id']: record for record in Record.objects.filter(
                 team_id=team.id,
                 is_active=True,
@@ -159,8 +165,23 @@ class LeaderboardView(DefaultContextMixin, TemplateView):
 
             leaderboard['data'].append(data)
 
-        # TODO: sort by point
         leaderboard['data'] = sorted(leaderboard['data'], key=lambda data: (data[sort_key] is 0, data[sort_key]))
+
+        # set rank in code
+        leaderboard['header'].insert(0, 'rank')
+        point_rank_map = {}
+        rank = 0;
+        for d in leaderboard['data']:
+            d_point = d[sort_key]
+            if point_rank_map.get(d_point):
+                d_rank = point_rank_map[d_point]
+            else:
+                rank = rank + 1
+                point_rank_map[d_point] = rank
+            d.insert(0, point_rank_map[d_point])
+
+        if search:
+            leaderboard['data'] = filter(lambda d: search in d[2], leaderboard['data'])
 
         context['team_map'] = team_map
         context['leaderboard'] = leaderboard
