@@ -10,9 +10,10 @@ from django.urls import path
 from commons.forms import CsvImportForm
 from commons.utils import ExportCsvMixin
 from death_race.utils import get_or_none
-from .models import Game, WOD, WOD2Game, Team, Team2Game, Record, Competition, Sponsor, Game2Sponsor
+from .models import Game, WOD, WOD2Game, Team, Team2Game, Record, Competition, Game2Sponsor
 from commons.models import Resource
-from .forms import WOD2GameForm, Team2GameForm, RecordForm, WODForm, CompetitionForm, SponsorForm, Game2SponsorForm
+from .forms import WOD2GameForm, Team2GameForm, RecordForm, WODForm, CompetitionForm, Game2SponsorForm
+from sponsors.models import Sponsor
 
 
 @admin.register(Game)
@@ -172,21 +173,6 @@ class CompetitionAdmin(admin.ModelAdmin):
         'name',
         'game_name',
         'wod_list',
-        'created_at',
-        'updated_at',
-        'is_active',
-    ]
-
-
-@admin.register(Sponsor)
-class SponsorAdmin(admin.ModelAdmin):
-    form = SponsorForm
-    list_display = [
-        'id',
-        'name',
-        'description',
-        'image_link',
-        'participated_game_list',
         'created_at',
         'updated_at',
         'is_active',
