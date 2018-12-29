@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 
-from games.models import Game, Team, Game2Team
+from games.models import Game, Team2Game
+from teams.models import Team
 
 
 class Command(BaseCommand):
@@ -20,9 +21,9 @@ class Command(BaseCommand):
         for t in Team.objects.filter(
             is_active=True
         ):
-            g2t = Game2Team(
+            t2g = Team2Game(
                 team_id=t.id,
                 game_id=g.id,
                 is_active=True,
             )
-            g2t.save()
+            t2g.save()
