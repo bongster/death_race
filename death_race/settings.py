@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'teams',
     'users',
     'sponsors',
+    'records',
 ]
 
 MIDDLEWARE = [

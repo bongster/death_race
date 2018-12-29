@@ -3,8 +3,10 @@ import logging
 from django.shortcuts import render
 from django.views.generic import TemplateView, RedirectView
 
-from .models import Game, WOD2Game, WOD, Team2Game, Record, Competition, Game2Sponsor
+
+from .models import Game, WOD2Game, WOD, Team2Game, Competition, Game2Sponsor
 from teams.models import Team
+from records.models import Record
 from .forms import LeaderboardForm
 from sponsors.models import Sponsor
 

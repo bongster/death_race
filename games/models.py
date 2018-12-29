@@ -123,6 +123,7 @@ class Team2Competition(models.Model):
 class WOD2Game(models.Model):
     """
     included wods in game
+    Deprecated
     """
     class Meta:
         db_table = 'wods_2_games'
@@ -193,6 +194,7 @@ class WOD2Competition(models.Model):
     """
     included wods in game
     not used
+    Deprecated
     """
 
     class Meta:
@@ -236,44 +238,6 @@ class Team2Game(models.Model):
 
     def game_name(self):
         return Game.objects.get(id=self.game_id).name
-
-class Record(models.Model):
-    """
-    team wod record data
-    """
-    class Meta:
-        db_table = "records"
-        unique_together = (
-            ('wod_id', 'team_id'),
-        )
-    
-    wod_id = models.IntegerField()
-    team_id = models.IntegerField(db_index=True)
-
-    score = models.CharField(max_length=100)
-    point = models.PositiveSmallIntegerField(null=True)
-
-    is_active = models.BooleanField(default=False)
-
-    def wod_name(self):
-        return WOD.objects.get(pk=self.wod_id).name
-
-    def team_name(self):
-        team = Team.objects.get(pk=self.team_id)
-        return format_html(
-            '{} [ <b>{}</b> ]',
-            team.name,
-            team.team_type,
-        )
-    
-    def video_url(self):
-        resource = get_or_none(Resource,
-            model_type=Resource.MODEL_TYPE_RECORD,
-            model_id=self.id,
-            is_active=True,
-        )
-        if resource:
-            return resource.link
 
 class Game2Sponsor(models.Model):
     class Meta:
