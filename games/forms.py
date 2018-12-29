@@ -1,7 +1,8 @@
 from django import forms
 
 # Register your models here.
-from .models import Game, WOD, WOD2Game, Team, Team2Game, Competition, Record, Game2Sponsor
+from .models import Game, WOD, WOD2Game, Team2Game, Competition, Record, Game2Sponsor
+from teams.models import Team
 from sponsors.models import Sponsor
 
 

@@ -10,7 +10,8 @@ from django.urls import path
 from commons.forms import CsvImportForm
 from commons.utils import ExportCsvMixin
 from death_race.utils import get_or_none
-from .models import Game, WOD, WOD2Game, Team, Team2Game, Record, Competition, Game2Sponsor
+from .models import Game, WOD, WOD2Game, Team2Game, Record, Competition, Game2Sponsor
+from teams.models import Team
 from commons.models import Resource
 from .forms import WOD2GameForm, Team2GameForm, RecordForm, WODForm, CompetitionForm, Game2SponsorForm
 from sponsors.models import Sponsor
@@ -43,19 +44,6 @@ class WODAdmin(admin.ModelAdmin):
 # class WOD2GameAdmin(admin.ModelAdmin):
 #     form = WOD2GameForm
 #     list_display = [field.name for field in WOD2Game._meta.get_fields()]
-
-
-@admin.register(Team)
-class TeamAdmin(admin.ModelAdmin):
-    list_display = [
-        'id',
-        'name',
-        'team_type',
-        'gender_type',
-        'created_at',
-        'updated_at',
-        'is_active',
-    ]
 
 
 @admin.register(Team2Game)
