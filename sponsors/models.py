@@ -1,5 +1,4 @@
 from django.db import models
-from games.models import Game, Game2Sponsor
 
 class Sponsor(models.Model):
     class Meta:
@@ -15,6 +14,7 @@ class Sponsor(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def participated_game_list(self):
+        from games.models import Game, Game2Sponsor
         return ','.join(
             [
                 game.name for game in Game.objects.filter(

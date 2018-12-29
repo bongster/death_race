@@ -5,6 +5,7 @@ from django.utils.html import format_html
 from death_race.utils import get_or_none
 from commons.models import Resource
 from teams.models import Team
+from sponsors.models import Sponsor
 
 
 class Game(models.Model):
@@ -57,7 +58,6 @@ class Game(models.Model):
         )
 
     def sponed_sponsor_list(self):
-        from sponsors.models import Sponsor
         return format_html(
             '{}',
             Sponsor.objects.filter(
