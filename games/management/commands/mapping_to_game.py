@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 
-from games.models import Game, Team, Team2Game
+from games.models import Game, Team2Game
+from teams.models import Team
 
 
 class Command(BaseCommand):

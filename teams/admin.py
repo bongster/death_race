@@ -5,8 +5,7 @@ from django.urls import path
 from django.shortcuts import redirect, render
 from django.contrib import admin
 
-from .models import Team2User
-from games.models import Team
+from .models import Team2User, Team
 from users.models import User
 from commons.forms import CsvImportForm
 from commons.utils import ExportCsvMixin
@@ -86,3 +85,15 @@ class Team2UserAdmin(ExportCsvMixin, admin.ModelAdmin):
         return render(
             request, 'admin/csv_form.html', payload
         )
+
+@admin.register(Team)
+class TeamAdmin(admin.ModelAdmin):
+    list_display = [
+        'id',
+        'name',
+        'team_type',
+        'gender_type',
+        'created_at',
+        'updated_at',
+        'is_active',
+    ]

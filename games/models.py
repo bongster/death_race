@@ -4,6 +4,8 @@ from django.utils.html import format_html
 
 from death_race.utils import get_or_none
 from commons.models import Resource
+from teams.models import Team
+from sponsors.models import Sponsor
 
 
 class Game(models.Model):
@@ -121,6 +123,7 @@ class Team2Competition(models.Model):
 class WOD2Game(models.Model):
     """
     included wods in game
+    Deprecated
     """
     class Meta:
         db_table = 'wods_2_games'
@@ -191,6 +194,7 @@ class WOD2Competition(models.Model):
     """
     included wods in game
     not used
+    Deprecated
     """
 
     class Meta:
@@ -207,44 +211,6 @@ class WOD2Competition(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-class Team(models.Model):
-    class Meta:
-        db_table = 'teams'
-
-    INDIVIDUAL = 'individual'
-    TEAM = 'team'
-
-    TEAM_TYPE = (
-        (INDIVIDUAL, 'individual'),
-        (TEAM, 'team'),
-    )
-
-    MALE = 'male'
-    FEMALE = 'female'
-    MIXED = 'mixed'
-
-    GENTER_TYPE = (
-        (MALE, 'MALE'),
-        (FEMALE, 'FEMALE'),
-        (MIXED, 'MIXED',)
-    )
-
-    name = models.CharField(max_length=50)
-    team_type = models.CharField(choices=TEAM_TYPE, default=TEAM, max_length=50)
-    gender_type = models.CharField(choices=GENTER_TYPE, default=MALE, max_length=10)
-
-    is_active = models.BooleanField(default=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return '({}) {}'.format(self.id, self.name)
-
-    def __str__(self):
-        return '({}) {}'.format(self.id, self.name)
 
 class Team2Game(models.Model):
     """
@@ -272,70 +238,6 @@ class Team2Game(models.Model):
 
     def game_name(self):
         return Game.objects.get(id=self.game_id).name
-
-class Record(models.Model):
-    """
-    team wod record data
-    """
-    class Meta:
-        db_table = "records"
-        unique_together = (
-            ('wod_id', 'team_id'),
-        )
-    
-    wod_id = models.IntegerField()
-    team_id = models.IntegerField(db_index=True)
-
-    score = models.CharField(max_length=100)
-    point = models.PositiveSmallIntegerField(null=True)
-
-    is_active = models.BooleanField(default=False)
-
-    def wod_name(self):
-        return WOD.objects.get(pk=self.wod_id).name
-
-    def team_name(self):
-        team = Team.objects.get(pk=self.team_id)
-        return format_html(
-            '{} [ <b>{}</b> ]',
-            team.name,
-            team.team_type,
-        )
-    
-    def video_url(self):
-        resource = get_or_none(Resource,
-            model_type=Resource.MODEL_TYPE_RECORD,
-            model_id=self.id,
-            is_active=True,
-        )
-        if resource:
-            return resource.link
-
-class Sponsor(models.Model):
-    class Meta:
-        db_table = 'sponsors'
-
-    name = models.CharField(max_length=100)
-    description = models.CharField(max_length=255, blank=True, default='')
-    image_link = models.URLField(null=True)
-
-    is_active = models.BooleanField(default=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def participated_game_list(self):
-        return ','.join(
-            [
-                game.name for game in Game.objects.filter(
-                    pk__in=Game2Sponsor.objects.filter(
-                        sponsor_id=self.id,
-                        is_active=True
-                    ).values_list('game_id', flat=True)
-                )
-            ]
-        )
-
 
 class Game2Sponsor(models.Model):
     class Meta:

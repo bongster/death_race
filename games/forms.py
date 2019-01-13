@@ -1,18 +1,10 @@
 from django import forms
 
 # Register your models here.
-from .models import Game, WOD, WOD2Game, Team, Team2Game, Competition, Record, Sponsor, Game2Sponsor
-
-
-class CustomChoiceField(forms.ChoiceField):
-    def label_from_instance(self, obj):
-        return "%s %s" % (obj.id, obj.name)
-
-
-class CustomModelChoiceField(forms.ModelChoiceField):
-    def label_from_instance(self, obj):
-        return "%s %s" % (obj.id, obj.name)
-
+from .models import Game, WOD, WOD2Game, Team2Game, Competition, Game2Sponsor
+from commons.forms import CustomChoiceField, CustomModelChoiceField
+from teams.models import Team
+from sponsors.models import Sponsor
 
 class WOD2GameForm(forms.ModelForm):
     wod_id = CustomModelChoiceField(
@@ -58,31 +50,6 @@ class Team2GameForm(forms.ModelForm):
     class Meta:
         model = Team2Game
         fields = '__all__'
-
-
-class RecordForm(forms.ModelForm):
-    team_id = CustomModelChoiceField(
-        queryset=Team.objects.order_by('name'),
-        empty_label=None,
-    )
-    wod_id = CustomModelChoiceField(
-        queryset=WOD.objects.order_by('name'),
-        empty_label=None,
-    )
-
-    def clean(self):
-        if isinstance(self.cleaned_data.get('team_id'), Team):
-            self.cleaned_data['team_id'] = self.cleaned_data['team_id'].id
-
-        if isinstance(self.cleaned_data.get('wod_id'), WOD):
-            self.cleaned_data['wod_id'] = self.cleaned_data['wod_id'].id
-
-        return super().clean()
-
-    class Meta:
-        model = Record
-        fields = '__all__'
-
 
 class CustomUIModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
@@ -182,12 +149,6 @@ class WODForm(forms.ModelForm):
 
     class Meta:
         model = WOD
-        fields = '__all__'
-
-
-class SponsorForm(forms.ModelForm):
-    class Meta:
-        model = Sponsor
         fields = '__all__'
 
 
