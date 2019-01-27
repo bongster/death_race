@@ -19,12 +19,17 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views import MainView, MainRedirectView
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('games/', include('games.urls')),
     path('', MainRedirectView.as_view()),
-    # path('', MainView.as_view()),
+    
+    # API endpoint
+    path('api/', include('api.urls')),
+    
+    # authentication and user endpoint
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
