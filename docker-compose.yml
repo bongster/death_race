@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  # db:
+  #   image: mariadb
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: pill
+  #     MYSQL_DATABASE: pill
+  #   volumes:
+  #     - mariadb-volume:/var/lib/mysql
+  #   ports:
+  #     - 3306:3306
+  server:
+    build:
+      context: .
+      dockerfile: services/server/Dockerfile
+    working_dir: /app
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./requirements.txt:/app/requirements.txt:ro
+      - ./services/server:/app
+    ports:
+      - 8000:8000
+    # depends_on:
+    #   - db
+volumes:
+  mariadb-volume:

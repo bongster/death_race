@@ -20,3 +20,20 @@ heroku run python manage.py dumpdata --natural-foreign -- > data.json
 ```
 python3 manage.py loaddata data.json
 ```
+
+
+## Settting devlop env
+
+1. install pyenv
+
+```
+brew update
+brew install pyenv
+```
+
+2. install pyenv-wrapper
+
+```
+brew install pyenv-virtualenv
+
+```
