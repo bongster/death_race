@@ -123,11 +123,11 @@ AUTH_USER_MODEL = 'users.MyUser'
 # Rest framework
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework_simplejwt.authentication.JWTTokenUserAuthentication',
-    }
+    ],
 }
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
