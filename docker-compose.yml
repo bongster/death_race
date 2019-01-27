@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  death_race:
+    build:
+      context: .
+      dockerfile: ./services/server/Dockerfile
+    working_dir: /app
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./services/server:/app
+    ports:
+      - 8000:8000
