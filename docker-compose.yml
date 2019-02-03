@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  death_race:
+    build:
+      context: .
+      dockerfile: ./services/server/Dockerfile
+    working_dir: /app/src
+    command: >
+      bash -c "/app/src/run.sh develop-run"
+    volumes:
+      - ./services/server:/app/src
+      - ./requirements.txt:/app/requirements.txt
+    ports:
+      - 8000:8000
