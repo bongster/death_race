@@ -114,3 +114,10 @@ venv.bak/
 staticfiles
 
 .idea
+
+# ignore next and node_modules
+**/node_modules/**
+
+.next
+
+package-lock.json
