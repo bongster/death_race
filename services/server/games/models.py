@@ -86,6 +86,12 @@ class Competition(models.Model):
     """
     name = models.CharField(max_length=255, default='')
     game_id = models.IntegerField(null=True)
+    m_game = models.ForeignKey(
+        'Game',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -114,6 +120,20 @@ class Team2Competition(models.Model):
 
     team_id = models.IntegerField()
     competition_id = models.IntegerField()
+
+    m_team = models.ForeignKey(
+        'teams.Team',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+    m_competition = models.ForeignKey(
+        'Competition',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+
     is_active = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -133,6 +153,20 @@ class WOD2Game(models.Model):
     
     game_id = models.IntegerField()
     wod_id = models.IntegerField()
+
+    m_game = models.ForeignKey(
+        'Game',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+    m_wod = models.ForeignKey(
+        'WOD',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+    
     order = models.PositiveSmallIntegerField()
 
     is_active = models.BooleanField(default=False)
@@ -170,6 +204,13 @@ class WOD(models.Model):
 
     competition_id = models.IntegerField(null=True)
 
+    m_competition = models.ForeignKey(
+        'Competition',
+        models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+
     is_active = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -205,6 +246,21 @@ class WOD2Competition(models.Model):
 
     competition_id = models.IntegerField()
     wod_id = models.IntegerField()
+
+    m_competition = models.ForeignKey(
+        'Competition',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+
+    m_wod = models.ForeignKey(
+        'WOD',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+    
     order = models.PositiveSmallIntegerField()
 
     is_active = models.BooleanField(default=False)
@@ -228,6 +284,20 @@ class Team2Game(models.Model):
     team_id = models.PositiveSmallIntegerField(db_index=True)
     game_id = models.PositiveSmallIntegerField(db_index=True)
 
+    m_team = models.ForeignKey(
+        'teams.Team',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+
+    m_game = models.ForeignKey(
+        'Game',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+
     is_active = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -248,6 +318,20 @@ class Game2Sponsor(models.Model):
 
     game_id = models.IntegerField(db_index=True)
     sponsor_id = models.IntegerField(db_index=True)
+
+    m_game = models.ForeignKey(
+        'Game',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+
+    m_sponsor = models.ForeignKey(
+        'sponsors.Sponsor',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
 
     is_active = models.BooleanField(default=True)
 

@@ -35,8 +35,16 @@ class GameAdmin(admin.ModelAdmin):
 @admin.register(WOD)
 class WODAdmin(admin.ModelAdmin):
     form = WODForm
-    list_display = [field.name for field in WOD._meta.get_fields()] + [
+    list_display = [
+        'id',
+        'name',
+        'wod_type',
+        'description',
+        'competition_id',
         'competition_name',
+        'is_active',
+        'created_at',
+        'updated_at',
     ]
 
 

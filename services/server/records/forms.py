@@ -27,4 +27,11 @@ class RecordForm(forms.ModelForm):
 
     class Meta:
         model = Record
-        fields = '__all__'
+        fields = [
+            'id',
+            'wod_id',
+            'team_id',
+            'score',
+            'point',
+            'is_active',
+        ]
