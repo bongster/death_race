@@ -21,6 +21,20 @@ class Record(models.Model):
     wod_id = models.IntegerField()
     team_id = models.IntegerField(db_index=True)
 
+    m_wod = models.ForeignKey(
+        'games.WOD',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+
+    m_team = models.ForeignKey(
+        'teams.Team',
+        on_delete=models.CASCADE,
+        blank = True,
+        null=True,
+    )
+
     score = models.CharField(max_length=100)
     point = models.PositiveSmallIntegerField(null=True)
 

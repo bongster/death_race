@@ -49,7 +49,12 @@ class Team2GameForm(forms.ModelForm):
 
     class Meta:
         model = Team2Game
-        fields = '__all__'
+        fields = [
+            'id',
+            'team_id',
+            'game_id',
+            'is_active',
+        ]
 
 class CustomUIModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
@@ -173,4 +178,9 @@ class Game2SponsorForm(forms.ModelForm):
 
     class Meta:
         model = Game2Sponsor
-        fields = '__all__'
+        fields = [
+            'id',
+            'game_id',
+            'sponsor_id',
+            'is_active',
+        ]
