@@ -9,7 +9,7 @@
             </div>
             <div class="col-4 text-center">
                 <a class="text-muted" href="{% url 'game-detail' game_id=game.id %}">
-                    <img class="img-fluid log-container" src="{{ MEDIA_URL }}{{game.logo_image}}" alt="{{ game.name }}">
+                    <img class="img-fluid log-container" src="{{ game.logo_image.build_url }} " alt="{{ game.name }}">
                 </a>
             </div>
             <div class="col-4 d-flex justify-content-end align-items-center">

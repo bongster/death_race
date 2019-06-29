@@ -52,7 +52,7 @@
                 <a href="{% url 'game-leaderboard' game_id=object.id %}">Leader board</a>
             </div>
             <img class="card-img-right flex-auto d-none d-lg-block" alt="Thumbnail [200x250]"
-                style="width: 200px; height: 250px;" src="{{MEDIA_URL}}{{object.logo_image}}">
+                style="width: 200px; height: 250px;" src="{{ object.logo_image.build_url }}">
         </div>
     </div>
     {% endfor %}
