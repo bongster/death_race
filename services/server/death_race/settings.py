@@ -25,10 +25,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'c5+u%0wxv=oqg1tj__7ww(p(&ez!fssd28&1=&xeb0rri)0131'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('ENV') != 'heroku'
 
 ALLOWED_HOSTS = []
 
+# CLOUDINARY_URL=cloudinary://<API-KEY>:<API-SECRET>@<CLOUD-NAME>
+# CLOUDINARY_URL=cloudinary://744235867686338:SDD-vOEJf4eedMpvnaMq7hkyQT4@danielbong
 
 # Application definition
 
