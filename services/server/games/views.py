@@ -1,7 +1,7 @@
 import logging
 
 from django.shortcuts import render
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import TemplateView, RedirectView, ListView
 
 
 from .models import Game, WOD2Game, WOD, Team2Game, Competition, Game2Sponsor
@@ -36,6 +36,12 @@ class DefaultContextMixin(TemplateView):
         print('call default context')
         return context
 
+class GameListView(ListView):
+    model = Game
+    template_name = 'game/index.html'
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(is_active=True)
 
 class GameRedirectView(DefaultContextMixin, RedirectView):
     permanent = False
