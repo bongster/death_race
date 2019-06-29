@@ -6,10 +6,9 @@ from django.views.generic import TemplateView, RedirectView
 class MainRedirectView(RedirectView):
     permanent = False
     query_string = True
-    pattern_name = 'game-detail'
+    pattern_name = 'games'
 
     def get_redirect_url(self, *args, **kwargs):
-        kwargs['game_id'] = kwargs.get('game_id') or 1
         return super().get_redirect_url(*args, **kwargs)
 
 class MainView(TemplateView):
