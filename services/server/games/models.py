@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.utils.html import format_html
 
+from cloudinary.models import CloudinaryField
+
 from death_race.utils import get_or_none
 from commons.models import Resource
 from teams.models import Team
@@ -27,7 +29,7 @@ class Game(models.Model):
         db_table = "games"
 
     name = models.CharField(max_length=100)
-    logo_image = models.ImageField(blank=True, upload_to='games/')
+    logo_image = CloudinaryField('image')
     description = models.TextField(blank=True, default='')
 
     start_date = models.DateTimeField(blank=True, null=True)
@@ -39,12 +41,9 @@ class Game(models.Model):
     is_active = models.BooleanField(default=False)
 
     def logo_image_tag(self):
-        image_url = '{}{}'.format(settings.MEDIA_URL, self.logo_image)
         return format_html(
-            "<a href='{}' target='_blank' ><img src='{}{}' width='144px'></a>",
-            image_url,
-            settings.MEDIA_URL,
-            self.logo_image,
+            "<a href='{0}' target='_blank' ><img src='{0}' width='144px'></a>",
+            self.logo_image.build_url(),
         )
 
     def competition_list(self):
