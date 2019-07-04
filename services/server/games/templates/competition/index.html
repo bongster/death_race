@@ -59,11 +59,11 @@
                             <img src="{{ resource.link }}" class="img-fluid w-100" alt="{{ resource.link }}" style="{% if forloop.first %} border-radius: 21px 21px 0 0; {% endif %}">
                         {% endif %}
                     {% endfor %}
-{#                    {% if wod.description %}#}
-{#                    <pre class="pb-4"><code>#}
-{#                        {{ wod.description }}#}
-{#                    </code></pre>#}
-{#                    {% endif %}#}
+                    {% if wod.description %}
+                        <pre class="pb-4"><code>
+                            {{ wod.description }}
+                        </code></pre>
+                   {% endif %}
                 {% else %}
                     <pre class="pb-4"><code>
                     Comming soon
